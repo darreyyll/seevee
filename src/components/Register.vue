@@ -2,9 +2,17 @@
 <div>
     <form>
         <label> User Account: {{activeAccount}}</label> <br>
-        <input type="text" v-model="pw" placeholder="Password"/>
+        <input type="text" v-model="pw" placeholder="Password"/><br><br>
+        <label> User Type: </label> <br>
+        <input type="radio" name="type" v-model="ins" v-bind:value="true">
+        <label for="ins"> Institution User </label><br>
+        <input type="radio" name="type" v-model="ins" v-bind:value="false">
+        <label for="can"> Candidate </label>
+        <br><br>
         <button v-on:click.prevent="register($event)"> Register </button>
     </form>
+    <!--br><hr><br>
+    <button @click="test"> Test </button-->
     <br><hr><br>
     <button v-on:click.prevent="back"> Back </button>
 
@@ -23,6 +31,7 @@ export default {
         return {
             usrAddress: '',
             pw: '',
+            ins: false, 
         }
     },
     methods: {
@@ -31,7 +40,6 @@ export default {
             event.preventDefault();
             firebase.auth().createUserWithEmailAndPassword(this.usrAddress, this.pw)
             .then(() => {
-
                 this.$router.push('/');
             },
             err => {
@@ -40,7 +48,11 @@ export default {
         },
         back() {
             this.$router.push('/');
-        }
+        },
+        /*
+        test() {
+            console.log(this.ins);
+        },*/
     }
 }
 </script>
