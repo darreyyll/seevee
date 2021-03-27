@@ -56,15 +56,15 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"counter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"decr\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"incr\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"show\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/darylkoh/Downloads/IS4302 PROJECT/AAA_TEST_20210317/VUE APP/seevee/truffle/contracts/Dummy.sol\":\"Dummy\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/darylkoh/Downloads/IS4302 PROJECT/AAA_TEST_20210317/VUE APP/seevee/truffle/contracts/Dummy.sol\":{\"keccak256\":\"0x08642f276009d3168eb51dffce7e4cc1c0fe77d31d419d8a26b771a802463898\",\"urls\":[\"bzz-raw://2f2e1d185ec751360f5587250da30de518c65e66f743256996401e183df8d9d8\",\"dweb:/ipfs/QmTkawU7k65zX89WFWFVKB1zC6PwxMsi5d6gWmkU4WEo8a\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b506000808190555060fb806100266000396000f3fe6080604052348015600f57600080fd5b506004361060465760003560e01c8063119fbbd414604b57806361bc221a146053578063cc80f6f314606f578063d9f2ac8a14608b575b600080fd5b60516093565b005b605960a5565b6040518082815260200191505060405180910390f35b607560ab565b6040518082815260200191505060405180910390f35b609160b4565b005b60016000808282540192505081905550565b60005481565b60008054905090565b6001600080828254039250508190555056fea265627a7a72315820591b97964db86d7ca841a39392907fad34a3fbec45b9749261684e1a775cd48364736f6c63430005100032",
-  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060465760003560e01c8063119fbbd414604b57806361bc221a146053578063cc80f6f314606f578063d9f2ac8a14608b575b600080fd5b60516093565b005b605960a5565b6040518082815260200191505060405180910390f35b607560ab565b6040518082815260200191505060405180910390f35b609160b4565b005b60016000808282540192505081905550565b60005481565b60008054905090565b6001600080828254039250508190555056fea265627a7a72315820591b97964db86d7ca841a39392907fad34a3fbec45b9749261684e1a775cd48364736f6c63430005100032",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"counter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"decr\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"incr\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"show\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/darylkoh/Downloads/seevee/truffle/contracts/Dummy.sol\":\"Dummy\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/darylkoh/Downloads/seevee/truffle/contracts/Dummy.sol\":{\"keccak256\":\"0x08642f276009d3168eb51dffce7e4cc1c0fe77d31d419d8a26b771a802463898\",\"urls\":[\"bzz-raw://2f2e1d185ec751360f5587250da30de518c65e66f743256996401e183df8d9d8\",\"dweb:/ipfs/QmTkawU7k65zX89WFWFVKB1zC6PwxMsi5d6gWmkU4WEo8a\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506000808190555060fb806100266000396000f3fe6080604052348015600f57600080fd5b506004361060465760003560e01c8063119fbbd414604b57806361bc221a146053578063cc80f6f314606f578063d9f2ac8a14608b575b600080fd5b60516093565b005b605960a5565b6040518082815260200191505060405180910390f35b607560ab565b6040518082815260200191505060405180910390f35b609160b4565b005b60016000808282540192505081905550565b60005481565b60008054905090565b6001600080828254039250508190555056fea265627a7a7231582008b166fe0afc3e23b63ca62f98a69f4b31f16e48907efe0446c33ff4b491ce6f64736f6c63430005100032",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060465760003560e01c8063119fbbd414604b57806361bc221a146053578063cc80f6f314606f578063d9f2ac8a14608b575b600080fd5b60516093565b005b605960a5565b6040518082815260200191505060405180910390f35b607560ab565b6040518082815260200191505060405180910390f35b609160b4565b005b60016000808282540192505081905550565b60005481565b60008054905090565b6001600080828254039250508190555056fea265627a7a7231582008b166fe0afc3e23b63ca62f98a69f4b31f16e48907efe0446c33ff4b491ce6f64736f6c63430005100032",
   "sourceMap": "108:295:1:-;;;155:49;8:9:-1;5:2;;;30:1;27;20:12;5:2;155:49:1;196:1;186:7;:11;;;;108:295;;;;;;",
   "deployedSourceMap": "108:295:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;108:295:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;289:52;;;:::i;:::-;;129:19;;;:::i;:::-;;;;;;;;;;;;;;;;;;;210:73;;;:::i;:::-;;;;;;;;;;;;;;;;;;;347:52;;;:::i;:::-;;289;333:1;322:7;;:12;;;;;;;;;;;289:52::o;129:19::-;;;;:::o;210:73::-;246:4;269:7;;262:14;;210:73;:::o;347:52::-;391:1;380:7;;:12;;;;;;;;;;;347:52::o",
   "source": "pragma solidity ^0.5.0;\n\n// Just a test to see if we can work with multiple deployed contracts in drizzle.\n\ncontract Dummy {\n    uint public counter;\n\n    constructor() public {\n        counter = 0;\n    }\n\n    function show() public view returns(uint) {\n        return counter;\n    }\n\n    function incr() public {\n        counter += 1;\n    }\n\n    function decr() public {\n        counter -= 1;\n    }\n\n\n}\n\n",
-  "sourcePath": "/Users/darylkoh/Downloads/IS4302 PROJECT/AAA_TEST_20210317/VUE APP/seevee/truffle/contracts/Dummy.sol",
+  "sourcePath": "/Users/darylkoh/Downloads/seevee/truffle/contracts/Dummy.sol",
   "ast": {
-    "absolutePath": "/Users/darylkoh/Downloads/IS4302 PROJECT/AAA_TEST_20210317/VUE APP/seevee/truffle/contracts/Dummy.sol",
+    "absolutePath": "/Users/darylkoh/Downloads/seevee/truffle/contracts/Dummy.sol",
     "exportedSymbols": {
       "Dummy": [
         243
@@ -463,7 +463,7 @@
   },
   "legacyAST": {
     "attributes": {
-      "absolutePath": "/Users/darylkoh/Downloads/IS4302 PROJECT/AAA_TEST_20210317/VUE APP/seevee/truffle/contracts/Dummy.sol",
+      "absolutePath": "/Users/darylkoh/Downloads/seevee/truffle/contracts/Dummy.sol",
       "exportedSymbols": {
         "Dummy": [
           243
@@ -1004,10 +1004,22 @@
       "links": {},
       "address": "0xf01aEae73B0e1A7f4DA5813400967f9829A09cAC",
       "transactionHash": "0x4fb2e58902cb5d43f0ee4fb0407f9ca3712353a8caa78a78930de145f071a8bf"
+    },
+    "1616813575173": {
+      "events": {},
+      "links": {},
+      "address": "0xf01aEae73B0e1A7f4DA5813400967f9829A09cAC",
+      "transactionHash": "0x0d87baa1ff06cc2ef7757ee8d4f17c54fd6bc337f1b9bd9a82dc64bbb564ab4c"
+    },
+    "1616815081621": {
+      "events": {},
+      "links": {},
+      "address": "0xf01aEae73B0e1A7f4DA5813400967f9829A09cAC",
+      "transactionHash": "0x0d87baa1ff06cc2ef7757ee8d4f17c54fd6bc337f1b9bd9a82dc64bbb564ab4c"
     }
   },
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-03-26T17:18:18.799Z",
+  "updatedAt": "2021-03-27T03:18:52.099Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

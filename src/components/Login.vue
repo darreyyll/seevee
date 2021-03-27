@@ -13,10 +13,10 @@
     </form>
     <button @click="register"> Register </button>
     <br><hr><br>
-    <!--div> Dummies to test </div>
+    <div> Dummies to test </div>
     <button @click="loginCan"> LogIn Candidate </button>
     <button @click="loginIns"> LogIn Institution </button>
-    <button @click="test"> Test </button-->
+    <button @click="test"> Test </button>
 
 
     <br>
@@ -70,7 +70,6 @@ export default {
         register() {
             this.$router.push('/register');
         },
-        /*
         loginCan() {
             this.$router.push('/candidate');
         },
@@ -81,7 +80,6 @@ export default {
             this.usrAddress = this.activeAccount.toString() + "@seevee.com";
             console.log(this.add.institutions.includes(this.usrAddress));
         },
-        */
     }
 }
 </script>
