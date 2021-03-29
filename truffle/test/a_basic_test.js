@@ -1,9 +1,12 @@
 var Credential = artifacts.require("Credential");
+var Dummy = artifacts.require("Dummy");
 
 contract("Credential testing", (accounts) => {
     let cred;
+    let dum;
     before(async () => {
         cred = await Credential.deployed();
+        dum = await Dummy.deployed();
     });
 
     it("Should do this", async () => {
@@ -55,6 +58,22 @@ contract("Credential testing", (accounts) => {
         //console.log(t1.toNumber()); //6
         assert(t1.toNumber()==6,"11");
         
+
+    
+    });
+
+
+    it("Should do this", async () => {
+        var x1 = 0;
+        var x2 = await dum.incr();
+        var x3 = await dum.incr();
+        var x4 = await dum.show.call();
+        console.log(x1);
+        //console.log(x2);
+        //console.log(x3);
+        console.log(x4.toNumber());
+
+
 
     });
 })

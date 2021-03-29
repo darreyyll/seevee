@@ -21,12 +21,12 @@
     <br><hr><br>
     <h1 style="color: blue"> INSTITUTION'S <u> MINTING PAGE </u> </h1>
     <br><hr><br>
-    <h1> MAIN CONTRACT OWNER ACCOUNT </h1>
+    <!--h1> MAIN CONTRACT OWNER ACCOUNT </h1>
     <drizzle-contract
         contractName="Credential"
         method="owner"
         label="Value"
-    />
+    /-->
     <br><hr><br>
     <h1> CURRENT METAMASK ACCOUNT </h1>
     <!-- this has some big number error in the console-->
@@ -34,28 +34,28 @@
     <p>{{activeAccount}}</p>
     <p>Balance: {{activeBalance}} Wei</p>
     <br><hr><br>
-    <h1> (1) MAIN CONTRACT (TEST) </h1>
+    <!--h1> (1) MAIN CONTRACT (TEST) </h1>
     <h1> MINTING ACAD TOKEN </h1>
     <drizzle-contract
         contractName="Credential"
         method="tokenId"
         label="Number of Acads Minted"
     />
-    <!-- START MINT ACAD OPTION (1) -->
-    <!--drizzle-contract-form
+    <!- - START MINT ACAD OPTION (1) - ->
+    <!- -drizzle-contract-form
         contractName="Credential"
         method="mintAcad"
         :placeholders="['studentAddress','moduleCode','moduleGrade']"
-    /-->
-    <!-- END MINT ACAD OPTION (1) -->
-    <!-- START MINT ACAD OPTION (2) -->
+    /- ->
+    <!- - END MINT ACAD OPTION (1) - ->
+    <!- - START MINT ACAD OPTION (2) - ->
     <form>
     <input type="text" v-model="mint.addr" placeholder="Insert student address"/>
     <input type="text" v-model="mint.modCode" placeholder="Insert module code"/>
     <input type="text" v-model="mint.grade" placeholder="Module Grade"/>
     <button v-on:click.prevent="mintToken"> Mint Token </button>
     </form>
-    <!-- END MINT ACAD OPTION (2) -->
+    <!- - END MINT ACAD OPTION (2) - ->
     <br><hr><br>
     <h1> (1) MAIN CONTRACT (TEST) </h1>
     <h1> VIEWING ACAD TOKEN </h1>
@@ -83,7 +83,7 @@
     />
     <button v-on:click.prevent="decr"> Decrease </button>
     <button v-on:click.prevent="incr"> Increase </button>
-    <br><hr><br>
+    <br><hr><br-->
 </div>
 </template>
 
@@ -98,6 +98,10 @@ export default {
       ...mapGetters("drizzle",["drizzleInstance","isDrizzleInitialized"]),
   },
   methods: {
+      async dummy() {
+          console.log(database);
+      },
+      /*
       async getGrade() {
           // Retrieve value using ".call()'
           this.view.grade = await this.drizzleInstance
@@ -156,10 +160,12 @@ export default {
              .incr()
              .send();
        },
+       */
   },
   data() {
       return {
           // all these data will serve as arguments to our contract calls
+          /*
           view: {
             addr: '',
             modCode: '',
@@ -174,6 +180,7 @@ export default {
               addr: '',
               num: ''
           }
+          */
       }
   },
 }

@@ -1,5 +1,4 @@
 import Credential from "@/contracts/Credential.json";
-import Dummy from "@/contracts/Dummy.json";
 
 const options = {
   web3: {
@@ -10,7 +9,7 @@ const options = {
     }
   },
 // The contracts to monitor
-  contracts: [Dummy, Credential],
+  contracts: [Credential],
   /*events: {
     Credential: []
   },*/

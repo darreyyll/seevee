@@ -21,12 +21,12 @@
     <br><hr><br>
     <h1 style="color: blue"> INSTITUTION'S <u>HOME PAGE</u> </h1>
     <br><hr><br>
-    <h1> MAIN CONTRACT OWNER ACCOUNT </h1>
+    <!--h1> MAIN CONTRACT OWNER ACCOUNT </h1>
     <drizzle-contract
         contractName="Credential"
         method="owner"
         label="Value"
-    />
+    /-->
     <br><hr><br>
     <h1> CURRENT METAMASK ACCOUNT </h1>
     <!-- this has some big number error in the console-->

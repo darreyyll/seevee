@@ -18,23 +18,14 @@
 <template>
 <div>
     <hdrCan></hdrCan>
-    <br><hr><br>
-    <h1 style="color: blue"> CANDIDATE'S <u>HOME PAGE</u> </h1>
-    <br><hr><br>
-    <h1> MAIN CONTRACT OWNER ACCOUNT </h1>
-    <drizzle-contract
-        contractName="Credential"
-        method="owner"
-        label="Value"
-    />
-    <br><hr><br>
-    <h1> CURRENT METAMASK ACCOUNT </h1>
-    <!-- this has some big number error in the console-->
-    <!--drizzle-account units="Ether" :precision="2"/-->
-    <!-- console error when swit-->
-    <p>{{activeAccount}}</p>
-    <p>Balance: {{activeBalance}} Wei</p>
-    <br><hr><br>
+    <br><hr>
+    <p> <b> Welcome to SeeVee! </b> </p>
+    <p> <u> Claim </u> </p>
+    <p> Enter this tab to submit claims to credentials. You will require the institution address and claim details to submit a claim. Retain your claim id for later retrieval. </p>
+    <p> <u> View </u> </p>
+    <p> Enter this tab to view your claims to credentials. You can view your claim details as well as verification status. </p>
+    <p> <u> Approve </u> </p>
+    <p> Enter this tab to approve your credentials for other institutions to view. You will require the institution address and claim details to submit an approval. </p>
 </div>
 </template>
 
@@ -49,13 +40,11 @@ export default {
       ...mapGetters("drizzle",["drizzleInstance","isDrizzleInitialized"]),
   },
   methods: {
-
   },
   data() {
       return {
           // all these data will serve as arguments to our contract calls
-          test1: '',
-          test2:'',
+          name: '',
       }
   },
 }

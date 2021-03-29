@@ -21,12 +21,12 @@
     <br><hr><br>
     <h1 style="color: blue"> INSTITUTION'S <u> TOKEN VIEWING PAGE </u> </h1>
     <br><hr><br>
-    <h1> MAIN CONTRACT OWNER ACCOUNT </h1>
+    <!--h1> MAIN CONTRACT OWNER ACCOUNT </h1>
     <drizzle-contract
         contractName="Credential"
         method="owner"
         label="Value"
-    />
+    /-->
     <br><hr><br>
     <h1> CURRENT METAMASK ACCOUNT </h1>
     <!-- this has some big number error in the console-->
@@ -34,7 +34,7 @@
     <p>{{activeAccount}}</p>
     <p>Balance: {{activeBalance}} Wei</p>
     <br><hr><br>
-    <h1> (1) MAIN CONTRACT (TEST) </h1>
+    <!--h1> (1) MAIN CONTRACT (TEST) </h1>
     <h1> VIEWING ACAD TOKEN </h1>
     <drizzle-contract
         contractName="Credential"
@@ -65,7 +65,7 @@
     />
     <button v-on:click.prevent="decr"> Decrease </button>
     <button v-on:click.prevent="incr"> Increase </button>
-    <br><hr><br>
+    <br><hr><br-->
 </div>
 </template>
 
@@ -80,6 +80,7 @@ export default {
       ...mapGetters("drizzle",["drizzleInstance","isDrizzleInitialized"]),
   },
   methods: {
+      /*
       async getGrade() {
           // Retrieve value using ".call()'
           this.view.grade = await this.drizzleInstance
@@ -113,10 +114,12 @@ export default {
              .incr()
              .send();
        },
+       */
   },
   data() {
       return {
           // all these data will serve as arguments to our contract calls
+          /*
           view: {
             addr: '',
             modCode: '',
@@ -126,6 +129,7 @@ export default {
               addr: '',
               num: ''
           }
+          */
       }
   },
 }

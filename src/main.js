@@ -9,6 +9,7 @@ import Routes from './routes.js'
 
 import LogIn from './components/Login.vue'
 import Candidate from './components/Candidate.vue'
+import CandidateClaim from './components/CandidateClaim.vue'
 import CandidateApprove from './components/CandidateApprove.vue'
 import CandidateView from './components/CandidateView.vue'
 import Institution from './components/Institution.vue'
@@ -17,6 +18,7 @@ import InstitutionRequest from './components/InstitutionRequest.vue'
 import InstitutionView from './components/InstitutionView.vue'
 import HeaderCandidate from './components/HeaderCandidate.vue'
 import HeaderInstitution from './components/HeaderInstitution.vue'
+import firebase from 'firebase'
 
 
 Vue.config.productionTip = false
@@ -29,8 +31,30 @@ const myRouter = new VueRouter({
   mode: 'history'
 });
 
+//NavGuards
+myRouter.beforeEach((to, from, next) => {
+  //Check if authentication required to move forward
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    //Check if user is not logged in
+    if(!firebase.auth().currentUser) {
+      
+      next({
+        path: '/',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    } else { //Means we are logged in
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
 Vue.component('login', LogIn)
 Vue.component('candidate', Candidate)
+Vue.component('cadidateclaim', CandidateClaim)
 Vue.component('cadidateapprove', CandidateApprove)
 Vue.component('candidateview', CandidateView)
 Vue.component('institution', Institution)

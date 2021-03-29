@@ -1,77 +1,28 @@
-<!--
-// (1) Drizzle template tag to return a contract call
-<drizzle-contract
-    contractName="Credential"
-    method="owner"
-    label="Value"
-/>
-// (2) Drizzle template to call a contract with its arguments
-<drizzle-contract-form
-    contractName="Credential"
-    method="mintAcad"
-    :placeholders="['studentAddress','moduleCode','moduleGrade']"
-/>
-// (3) Drizzle template limitations:
-// - dizzle-contract cannot call viewing functions with arguments!?
-// - drizzle-contract-form cannot add fields or retireve field values; hidden by drizzle abstraction – cannot log into firebase.
--->
 <template>
 <div>
     <hdrCan></hdrCan>
-    <br><hr><br>
-    <h1 style="color: blue"> CANDIDATE'S <u> TOKEN VIEWING PAGE </u> </h1>
-    <br><hr><br>
-    <h1> MAIN CONTRACT OWNER ACCOUNT </h1>
-    <drizzle-contract
-        contractName="Credential"
-        method="owner"
-        label="Value"
-    />
-    <br><hr><br>
-    <h1> CURRENT METAMASK ACCOUNT </h1>
-    <!-- this has some big number error in the console-->
-    <!--drizzle-account units="Ether" :precision="2"/-->
-    <p>{{activeAccount}}</p>
-    <p>Balance: {{activeBalance}} Wei</p>
-    <br><hr><br>
-    <h1> (1) MAIN CONTRACT (TEST) </h1>
-    <h1> VIEWING ACAD TOKEN </h1>
-    <drizzle-contract
-        contractName="Credential"
-        method="tokenId"
-        label="Number of Acads Minted"
-    />
+    <br><hr>
+    <p> <b> View Claim </b> </p>
     <form>
-    <input type="text" v-model="view.addr" placeholder="Insert student address"/>
-    <input type="text" v-model="view.modCode" placeholder="Insert module code"/>
-    <button v-on:click.prevent="getGrade"> Get Grade </button>
+        <label> Claim ID: </label>
+        <input type="number" v-model="claimId" placeholder="ClaimID"/> <br>
+        <label for="ins"> Experience </label>
+        <input type="radio" name="type" v-model="exp" v-bind:value="true"> <br> 
+        <label for="can"> Academic </label>
+        <input type="radio" name="type" v-model="exp" v-bind:value="false"> <br>
+        <br>
+        <button v-on:click.prevent="retrieveClaim"> Retrieve Claim </button>
     </form>
-    <p> GRADE: {{this.view.grade}}</p> 
-    <br><hr><br>
-    <h1> (2) EMBEDDED CONTRACT (TEST) </h1>
-    <h1> COUNTING ACAD TOKEN </h1>
-    <form>
-    <input type="text" v-model="cnt.addr" placeholder="Insert student address"/>
-    <button v-on:click.prevent="getCount"> Get Count </button>
-    </form>
-    <p> NUMBER OF TOKENS: {{this.cnt.num}}</p> 
-    <br><hr><br>
-    <h1> (3) SECOND DEPLOYED CONTRACT (TEST) </h1>
-    <h1> DEPLOYED SECOND CONTRACT </h1>
-    <drizzle-contract
-        contractName="Dummy"
-        method="counter"
-        label="Current Count"
-    />
-    <button v-on:click.prevent="decr"> Decrease </button>
-    <button v-on:click.prevent="incr"> Increase </button>
-    <br><hr><br>
+    <hr>
+    <div v-if="this.success">
+        <p> Credential status is <b><u> {{this.status}}.</u></b> </p>
+    </div>
 </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-//import database from '../firebase.js' //to log our data
+import database from '../firebase.js' //to log our data
 
 export default {
   name: "app",
@@ -80,6 +31,47 @@ export default {
       ...mapGetters("drizzle",["drizzleInstance","isDrizzleInitialized"]),
   },
   methods: {
+      async dummy() {
+          console.log(database);
+
+      },
+      async retrieveClaim() {
+          this.success = true; //reset
+          this.status = ''; //reset
+          var s = await this.drizzleInstance
+            .contracts
+            .Credential
+            .methods
+            .getStatus(this.claimId)
+            .call().catch((err) => { //call has no "then"!?
+                this.success = false;
+                console.log(err);
+            });
+          if (s=="0") {
+              this.status = "false";
+          } else if (s=="1") {
+              this.status = "true";
+          } else if (s=="2") {
+              this.status = "pending";
+          } else if (s=="3") {
+              this.status = "revoked";
+          } else {
+              this.status = "error";
+          }
+          var dat;
+          var hsh;
+          if (this.success && this.exp) { //implies document exist to query our db
+              hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
+              dat = await database.collection("students").doc(this.activeAccount).collection("exp").doc(hsh).get();
+              console.log(dat.data());
+          } else if (this.success && !this.exp) {
+              hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
+              dat = await database.collection("students").doc(this.activeAccount).collection("acads").doc(hsh).get();
+              console.log(dat.data());
+          }
+          console.log(hsh);
+      },
+      /*
       async getGrade() {
           // Retrieve value using ".call()'
           this.view.grade = await this.drizzleInstance
@@ -112,11 +104,17 @@ export default {
              .methods
              .incr()
              .send();
-       },
+       },*/
   },
   data() {
       return {
+          claimId: '',
+          success: false,
+          status: '',
+          exp: false,
+
           // all these data will serve as arguments to our contract calls
+          /*
           view: {
             addr: '',
             modCode: '',
@@ -126,6 +124,7 @@ export default {
               addr: '',
               num: ''
           }
+          */
       }
   },
 }
@@ -139,6 +138,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+label {
+    display: inline-block;
+    width: 140px;
+    text-align: right;
 }
 </style>
 
