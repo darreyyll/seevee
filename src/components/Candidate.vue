@@ -1,20 +1,3 @@
-<!--
-// (1) Drizzle template tag to return a contract call
-<drizzle-contract
-    contractName="Credential"
-    method="owner"
-    label="Value"
-/>
-// (2) Drizzle template to call a contract with its arguments
-<drizzle-contract-form
-    contractName="Credential"
-    method="mintAcad"
-    :placeholders="['studentAddress','moduleCode','moduleGrade']"
-/>
-// (3) Drizzle template limitations:
-// - dizzle-contract cannot call viewing functions with arguments!?
-// - drizzle-contract-form cannot add fields or retireve field values; hidden by drizzle abstraction – cannot log into firebase.
--->
 <template>
 <div>
     <hdrCan></hdrCan>
@@ -25,7 +8,7 @@
     <p> <u> View </u> </p>
     <p> Enter this tab to view your claims to credentials. You can view your claim details as well as verification status. </p>
     <p> <u> Approve </u> </p>
-    <p> Enter this tab to approve your credentials for other institutions to view. You will require the institution address and claim details to submit an approval. </p>
+    <p> Enter this tab to approve your credentials for other institutions to view. You will require the institution address and claim ID to submit an approval. </p>
 </div>
 </template>
 

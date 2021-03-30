@@ -4,7 +4,7 @@
     <br><hr>
     <p> <b> Claim </b> </p>
     <button class="switch" v-on:click="showAcad"> Academic </button>
-    <button class="switch" v-on:click="showExp"> Expereince </button>
+    <button class="switch" v-on:click="showExp"> Experience </button>
     <div v-if="this.switch.acad">
     <br>
     <form>
@@ -42,8 +42,8 @@
     <div v-if="this.res.success">
     <p> Credential claim submitted successfully. <b> Your claim id is: <u> {{this.res.id}} </u> </b> </p>
     </div>
-    <br><hr><br>
-    <button v-on:click.prevent="checkHash"> Check Doc </button>
+    <!--br><hr><br>
+    <button v-on:click.prevent="checkHash"> Check Doc </button-->
 </div>
 </template>
 
@@ -173,12 +173,13 @@ export default {
                }
            });
       },
+      /*
       async checkHash() {
           var s = await this.drizzleInstance.contracts.Credential.methods.getStatus(this.res.id).call();
           var hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.res.id).call();
           console.log(s);
           console.log(hsh);
-      },
+      },*/
   },
   data() {
       return {

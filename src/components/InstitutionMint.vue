@@ -1,89 +1,55 @@
-<!--
-// (1) Drizzle template tag to return a contract call
-<drizzle-contract
-    contractName="Credential"
-    method="owner"
-    label="Value"
-/>
-// (2) Drizzle template to call a contract with its arguments
-<drizzle-contract-form
-    contractName="Credential"
-    method="mintAcad"
-    :placeholders="['studentAddress','moduleCode','moduleGrade']"
-/>
-// (3) Drizzle template limitations:
-// - dizzle-contract cannot call viewing functions with arguments!?
-// - drizzle-contract-form cannot add fields or retireve field values; hidden by drizzle abstraction – cannot log into firebase.
--->
 <template>
 <div>
     <hdrIns></hdrIns>
-    <br><hr><br>
-    <h1 style="color: blue"> INSTITUTION'S <u> MINTING PAGE </u> </h1>
-    <br><hr><br>
-    <!--h1> MAIN CONTRACT OWNER ACCOUNT </h1>
-    <drizzle-contract
-        contractName="Credential"
-        method="owner"
-        label="Value"
-    /-->
-    <br><hr><br>
-    <h1> CURRENT METAMASK ACCOUNT </h1>
-    <!-- this has some big number error in the console-->
-    <!--drizzle-account units="Ether" :precision="2"/-->
-    <p>{{activeAccount}}</p>
-    <p>Balance: {{activeBalance}} Wei</p>
-    <br><hr><br>
-    <!--h1> (1) MAIN CONTRACT (TEST) </h1>
-    <h1> MINTING ACAD TOKEN </h1>
-    <drizzle-contract
-        contractName="Credential"
-        method="tokenId"
-        label="Number of Acads Minted"
-    />
-    <!- - START MINT ACAD OPTION (1) - ->
-    <!- -drizzle-contract-form
-        contractName="Credential"
-        method="mintAcad"
-        :placeholders="['studentAddress','moduleCode','moduleGrade']"
-    /- ->
-    <!- - END MINT ACAD OPTION (1) - ->
-    <!- - START MINT ACAD OPTION (2) - ->
+    <br><hr>
+    <p> <b> Verify Credential </b> </p>
+    <button class="switch" v-on:click="showAcad"> Academic </button>
+    <button class="switch" v-on:click="showExp"> Experience </button>
+    <div v-if="this.switch.acad">
+    <br>
     <form>
-    <input type="text" v-model="mint.addr" placeholder="Insert student address"/>
-    <input type="text" v-model="mint.modCode" placeholder="Insert module code"/>
-    <input type="text" v-model="mint.grade" placeholder="Module Grade"/>
-    <button v-on:click.prevent="mintToken"> Mint Token </button>
+        <label> Claim ID: </label>
+        <input type="number" v-model="acad.id" placeholder="ClaimID"/> <br>
+        <label> Candidate: </label>
+        <input type="text" v-model="acad.user" placeholder="Candidate Address"/> <br>
+        <label> Module Code: </label>
+        <input type="text" v-model="acad.modCode" placeholder="Module Code"/> <br>
+        <label> Grade: </label>
+        <input type="text" v-model="acad.grade" placeholder="Attained Grade"/> <br>
+        <br>
+        <button v-on:click.prevent="verifyAcad"> Verify Academic Credential </button>
     </form>
-    <!- - END MINT ACAD OPTION (2) - ->
-    <br><hr><br>
-    <h1> (1) MAIN CONTRACT (TEST) </h1>
-    <h1> VIEWING ACAD TOKEN </h1>
+    <br>
+    </div>
+    <div v-if="this.switch.exp">
+    <br>
     <form>
-    <input type="text" v-model="view.addr" placeholder="Insert student address"/>
-    <input type="text" v-model="view.modCode" placeholder="Insert module code"/>
-    <button v-on:click.prevent="getGrade"> Get Grade </button>
+        <label> Claim ID: </label>
+        <input type="number" v-model="exp.id" placeholder="ClaimID"/> <br>
+        <label> Candidate: </label>
+        <input type="text" v-model="exp.user" placeholder="Candidate Address"/> <br>
+        <label> Start Date: </label>
+        <input type="text" v-model="exp.startDate" placeholder="Start Dates"/> <br>
+        <label> End Date: </label>
+        <input type="text" v-model="exp.endDate" placeholder="End Date"/> <br>
+        <label> Performance: </label>
+        <input type="text" v-model="exp.performanceRating" placeholder="Performance Rating"/> <br>
+        <label> Comments: </label>
+        <input type="text" v-model="exp.comments" placeholder="Comments"/> <br>
+        <br>
+        <button v-on:click.prevent="verifyExp"> Verify Experience Credential </button>
     </form>
-    <p> GRADE: {{this.view.grade}}</p> 
-    <br><hr><br>
-    <h1> (2) EMBEDDED CONTRACT (TEST) </h1>
-    <h1> COUNTING ACAD TOKEN </h1>
+    <br>
+    </div>
+    <br><hr>
+    <p> <b> Revoke Credential </b> </p>
     <form>
-    <input type="text" v-model="cnt.addr" placeholder="Insert student address"/>
-    <button v-on:click.prevent="getCount"> Get Count </button>
+        <label> Credential ID: </label>
+        <input type="number" v-model="revoke.id" placeholder="Credential ID"/> <br> 
+        <br>
+        <button v-on:click.prevent="revokeCred"> Revoke Credential </button>
     </form>
-    <p> NUMBER OF TOKENS: {{this.cnt.num}}</p> 
-    <br><hr><br>
-    <h1> (3) SECOND DEPLOYED CONTRACT (TEST) </h1>
-    <h1> DEPLOYED SECOND CONTRACT </h1>
-    <drizzle-contract
-        contractName="Dummy"
-        method="counter"
-        label="Current Count"
-    />
-    <button v-on:click.prevent="decr"> Decrease </button>
-    <button v-on:click.prevent="incr"> Increase </button>
-    <br><hr><br-->
+    <br>
 </div>
 </template>
 
@@ -101,86 +67,69 @@ export default {
       async dummy() {
           console.log(database);
       },
-      /*
-      async getGrade() {
-          // Retrieve value using ".call()'
-          this.view.grade = await this.drizzleInstance
-            .contracts
-            .Credential
-            .methods
-            .viewGrade(this.view.addr, this.view.modCode)
-            .call(); 
-       },
-       async mintToken() {
-           // Retrieve value using ".send()"
-           await this.drizzleInstance
-             .contracts
-             .Credential
-             .methods
-             .mintAcad(this.mint.addr, this.mint.modCode, this.mint.grade)
-             .send();
-           database.collection("students").doc(this.mint.addr).get().then(doc => {
-               if (!doc.exists) {
-                   database.collection("students").doc(this.mint.addr).set({});
-                   database.collection("students").doc(this.mint.addr).collection("acads").add({
-                       studentAddress: this.mint.addr,
-                       moduleCode: this.mint.modCode,
-                       gradeAttained: this.mint.grade,
-                   });
-               } else {
-                   database.collection("students").doc(this.mint.addr).collection("acads").add({
-                       studentAddress: this.mint.addr,
-                       moduleCode: this.mint.modCode,
-                       gradeAttained: this.mint.grade,
-                   });
-               }
-           });
-       },
-       async getCount() {
-          this.cnt.num = await this.drizzleInstance
-            .contracts
-            .Credential
-            .methods
-            .studentAcadCount(this.cnt.addr)
-            .call();
-       },
-       async decr() {
-           await this.drizzleInstance
-             .contracts
-             .Dummy
-             .methods
-             .decr()
-             .send();
-       },
-       async incr() {
-           await this.drizzleInstance
-             .contracts
-             .Dummy
-             .methods
-             .incr()
-             .send();
-       },
-       */
+      showAcad() {
+          this.switch.acad = true;
+          this.switch.exp = false;
+      },
+      showExp() {
+          this.switch.acad = false;
+          this.switch.exp = true;
+      },
+      async verifyAcad() {
+          var hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.acad.id).call();
+          var score = 100; //INSERT SOCRING ALGO HERE
+          var status = 1; //INSERT STATUS FROM SCORE ABOVE
+          //Update database accoridng to institution's entry
+          await database.collection("students").doc(this.acad.user).collection("acads").doc(hsh).update({
+              moduleCode: this.acad.modCode,
+              gradeAttained: this.acad.grade,
+          });
+          await this.drizzleInstance.contracts.Credential.methods.do_score(this.acad.id, score, status).send();
+      },
+      async verifyExp() {
+          var hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.exp.id).call();
+          var score = 100; //INSERT SOCRING ALGO HERE
+          var status = 1; //INSERT STATUS FROM SCORE ABOVE
+          //Update database accoridng to institution's entry
+          await database.collection("students").doc(this.exp.user).collection("exp").doc(hsh).update({
+              startDate: this.exp.startDate,
+              endDate: this.exp.endDate,
+              performanceRating: this.exp.performanceRating,
+              comments: this.exp.comments,
+          });
+          await this.drizzleInstance.contracts.Credential.methods.do_score(this.exp.id, score, status).send();
+      },
+      async revokeCred() {
+          await this.drizzleInstance.contracts.Credential.methods.revoke(this.revoke.id).send();
+      },
   },
   data() {
       return {
           // all these data will serve as arguments to our contract calls
-          /*
-          view: {
-            addr: '',
-            modCode: '',
-            grade: '',
+          switch: {
+              acad: true,
+              exp: false,
           },
-          mint: {
+          acad: {
+              id: '',
+              user: '',
               addr: '',
               modCode: '',
               grade: '',
           },
-          cnt: {
+          exp: {
+              id: '',
+              user: '',
               addr: '',
-              num: ''
-          }
-          */
+              startDate: '',
+              endDate: '',
+              performanceRating: '',
+              comments: '',
+          },
+          revoke: {
+              id: '',
+              exp: false,
+          },
       }
   },
 }
@@ -196,7 +145,3 @@ export default {
   margin-top: 60px;
 }
 </style>
-
-
-
-

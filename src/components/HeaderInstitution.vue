@@ -8,9 +8,10 @@
 
     <div class="nav">
         <router-link class="r" to="/institution" exact> Institution </router-link>
-        <router-link class="r" to="/institution/mint" exact> InstitutionMint </router-link>
-        <router-link class="r" to="/institution/request" exact> InstitutionRequest </router-link>
-        <router-link class="r" to="/institution/view" exact> InstitutionView </router-link>
+        <router-link class="r" to="/institution/mint" exact> Verify </router-link>
+        <!-- Remove since we are not doing institution requesting access alr-->
+        <!--router-link class="r" to="/institution/request" exact> Request </router-link-->
+        <router-link class="r" to="/institution/view" exact> View </router-link>
     </div>
 </div>
 </template>

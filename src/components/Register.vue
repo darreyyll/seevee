@@ -7,10 +7,10 @@
         <input type="text" v-model="this.activeAccount"/> <br>
         <label> Password: </label>
         <input type="text" v-model="pw" placeholder="Password"/><br>
-        <label for="ins"> Institution User </label>
-        <input type="radio" name="type" v-model="ins" v-bind:value="true"> <br> 
         <label for="can"> Candidate </label>
         <input type="radio" name="type" v-model="ins" v-bind:value="false"> <br>
+        <label for="ins"> Institution User </label>
+        <input type="radio" name="type" v-model="ins" v-bind:value="true"> <br> 
         <br><br>
         <button v-on:click.prevent="register($event)"> Register </button>
     </form>

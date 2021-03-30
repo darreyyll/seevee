@@ -1,39 +1,12 @@
-<!--
-// (1) Drizzle template tag to return a contract call
-<drizzle-contract
-    contractName="Credential"
-    method="owner"
-    label="Value"
-/>
-// (2) Drizzle template to call a contract with its arguments
-<drizzle-contract-form
-    contractName="Credential"
-    method="mintAcad"
-    :placeholders="['studentAddress','moduleCode','moduleGrade']"
-/>
-// (3) Drizzle template limitations:
-// - dizzle-contract cannot call viewing functions with arguments!?
-// - drizzle-contract-form cannot add fields or retireve field values; hidden by drizzle abstraction – cannot log into firebase.
--->
 <template>
 <div>
     <hdrIns></hdrIns>
-    <br><hr><br>
-    <h1 style="color: blue"> INSTITUTION'S <u>HOME PAGE</u> </h1>
-    <br><hr><br>
-    <!--h1> MAIN CONTRACT OWNER ACCOUNT </h1>
-    <drizzle-contract
-        contractName="Credential"
-        method="owner"
-        label="Value"
-    /-->
-    <br><hr><br>
-    <h1> CURRENT METAMASK ACCOUNT </h1>
-    <!-- this has some big number error in the console-->
-    <!--drizzle-account units="Ether" :precision="2"/-->
-    <p>{{activeAccount}}</p>
-    <p>Balance: {{activeBalance}} Wei</p>
-    <br><hr><br>
+    <br><hr>
+    <p> <b> Welcome to SeeVee! </b> </p>
+    <p> <u> Verify </u> </p>
+    <p> Enter this tab to verify credentials. Verification can be an acceptance, rejection or revocation. You will need a claim ID and details to perform verification. </p>
+    <p> <u> View </u> </p>
+    <p> Enter this tab to view credentials approved for your viewing. You can view the credential details here. </p>
 </div>
 </template>
 

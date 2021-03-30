@@ -1,39 +1,21 @@
-<!--
-// (1) Drizzle template tag to return a contract call
-<drizzle-contract
-    contractName="Credential"
-    method="owner"
-    label="Value"
-/>
-// (2) Drizzle template to call a contract with its arguments
-<drizzle-contract-form
-    contractName="Credential"
-    method="mintAcad"
-    :placeholders="['studentAddress','moduleCode','moduleGrade']"
-/>
-// (3) Drizzle template limitations:
-// - dizzle-contract cannot call viewing functions with arguments!?
-// - drizzle-contract-form cannot add fields or retireve field values; hidden by drizzle abstraction – cannot log into firebase.
--->
 <template>
 <div>
     <hdrCan></hdrCan>
-    <br><hr><br>
-    <h1 style="color: blue"> CANDIDATE'S <u> APPROVAL PAGE </u> </h1>
-    <br><hr><br>
-    <!--h1> MAIN CONTRACT OWNER ACCOUNT </h1>
-    <drizzle-contract
-        contractName="Credential"
-        method="owner"
-        label="Value"
-    /-->
-    <br><hr><br>
-    <h1> CURRENT METAMASK ACCOUNT </h1>
-    <!-- this has some big number error in the console-->
-    <!--drizzle-account units="Ether" :precision="2"/-->
-    <p>{{activeAccount}}</p>
-    <p>Balance: {{activeBalance}} Wei</p>
-    <br><hr><br>
+    <br><hr>
+    <p> <b> Approve </b> </p>
+    <br>
+    <form>
+        <label> Institution: </label>
+        <input type="text" v-model="ins" placeholder="Institution Address"/> <br>
+        <label> Claim ID: </label>
+        <input type="number" v-model="claimId" placeholder="ClaimID"/> <br>
+        <br>
+        <button v-on:click.prevent="approve"> Approve </button>
+    </form>
+    <hr>
+    <div v-if="this.success">
+    <p> Approval <b> <u> success. </u> </b> </p>
+    </div>
 </div>
 </template>
 
@@ -48,13 +30,28 @@ export default {
       ...mapGetters("drizzle",["drizzleInstance","isDrizzleInitialized"]),
   },
   methods: {
+      async approve() {
+          this.success = false;
+          await this.drizzleInstance
+            .contracts
+            .Credential
+            .methods
+            .givePermission(this.ins, this.claimId)
+            .send().then(() => {
+                this.success = true;
+            }).catch((err) => {
+                this.success = false;
+                console.log(err);
+            });
+      },
 
   },
   data() {
       return {
           // all these data will serve as arguments to our contract calls
-          test1: '',
-          test2:'',
+          ins: '',
+          claimId:'',
+          success: false,
       }
   },
 }
