@@ -129,11 +129,11 @@ contract Credential {
 
 
     //ADDITIONAL GETTERS TO SUPPORT VUE APP
-    function getClaimId() public view returns (uint256) {
+    function getClaimId() view public returns (uint256) {
         // returns current claim counter
         return claim_counter-1;
     }
-    function getStatus(uint256 claim_id) public view returns (uint8) {
+    function getStatus(uint256 claim_id) view public returns (uint8) {
         require(claim_records[claim_id].candidate == msg.sender, "Sender is not the candidate of specified claim");
         return claim_records[claim_id].status;
     }

@@ -42,6 +42,8 @@
     <div v-if="this.res.success">
     <p> Credential claim submitted successfully. <b> Your claim id is: <u> {{this.res.id}} </u> </b> </p>
     </div>
+    <br><hr><br>
+    <button v-on:click.prevent="checkHash"> Check Doc </button>
 </div>
 </template>
 
@@ -76,8 +78,21 @@ export default {
                        institutionAddress: this.acad.inst,
                        moduleCode: this.acad.modCode,
                        gradeAttained: this.acad.grade,
-                   }).then((docRef) => {
+                   }).then(async (docRef) => {
                        this.res.docRef = docRef.id;
+                       await this.drizzleInstance
+                            .contracts
+                            .Credential
+                            .methods
+                            .createClaim(this.acad.inst, this.res.docRef)
+                            .send().then(async () => {
+                                this.res.success = true;
+                                this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
+                            }).catch(async (err) => {
+                                this.res.success = false;
+                                this.res.id = 0;
+                                console.log(err);
+                            });
                    });
                } else {
                    database.collection("students").doc(this.activeAccount).collection("acads").add({
@@ -85,24 +100,24 @@ export default {
                        institutionAddress: this.acad.inst,
                        moduleCode: this.acad.modCode,
                        gradeAttained: this.acad.grade,
-                   }).then((docRef) => {
+                   }).then(async (docRef) => {
                        this.res.docRef = docRef.id;
+                       await this.drizzleInstance
+                            .contracts
+                            .Credential
+                            .methods
+                            .createClaim(this.acad.inst, this.res.docRef)
+                            .send().then(async () => {
+                                this.res.success = true;
+                                this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
+                            }).catch(async (err) => {
+                                this.res.success = false;
+                                this.res.id = 0;
+                                console.log(err);
+                            });
                    });
                }
            });
-          await this.drizzleInstance
-            .contracts
-            .Credential
-            .methods
-            .createClaim(this.acad.inst, this.res.docRef)
-            .send().then(async () => {
-                this.res.success = true;
-                this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
-            }).catch((err) => {
-                this.res.success = false;
-                this.res.id = 0;
-                console.log(err);
-            });
       },
       async claimExp() {
           await database.collection("students").doc(this.activeAccount).get().then(doc => {
@@ -115,8 +130,21 @@ export default {
                        endDate: this.exp.endDate,
                        performanceRating: this.exp.performanceRating,
                        comments: this.exp.comments,
-                   }).then((docRef) => {
+                   }).then(async (docRef) => {
                        this.res.docRef = docRef.id;
+                       await this.drizzleInstance
+                            .contracts
+                            .Credential
+                            .methods
+                            .createClaim(this.exp.inst, this.res.docRef)
+                            .send().then(async () => {
+                                this.res.success = true;
+                                this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
+                            }).catch(async (err) => {
+                                this.res.success = false;
+                                this.res.id = 0;
+                                console.log(err);
+                            });
                    });
                } else {
                    database.collection("students").doc(this.activeAccount).collection("exp").add({
@@ -126,24 +154,30 @@ export default {
                        endDate: this.exp.endDate,
                        performanceRating: this.exp.performanceRating,
                        comments: this.exp.comments,
-                   }).then((docRef) => {
+                   }).then(async (docRef) => {
                        this.res.docRef = docRef.id;
+                       await this.drizzleInstance
+                            .contracts
+                            .Credential
+                            .methods
+                            .createClaim(this.exp.inst, this.res.docRef)
+                            .send().then(async () => {
+                                this.res.success = true;
+                                this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
+                            }).catch(async (err) => {
+                                this.res.success = false;
+                                this.res.id = 0;
+                                console.log(err);
+                            });
                    });
                }
            });
-          await this.drizzleInstance
-            .contracts
-            .Credential
-            .methods
-            .createClaim(this.exp.inst, this.res.docRef)
-            .send().then(async () => {
-                this.res.success = true;
-                this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
-            }).catch((err) => {
-                this.res.success = false;
-                this.res.id = 0;
-                console.log(err);
-            });
+      },
+      async checkHash() {
+          var s = await this.drizzleInstance.contracts.Credential.methods.getStatus(this.res.id).call();
+          var hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.res.id).call();
+          console.log(s);
+          console.log(hsh);
       },
   },
   data() {

@@ -16,6 +16,10 @@
     <hr>
     <div v-if="this.success">
         <p> Credential status is <b><u> {{this.status}}.</u></b> </p>
+        <div class="scorecard">
+            <p> <b> <i> Claim Details: </i> </b> </p>
+            <p v-for="field in arr" v-bind:key="field"> {{field}} </p>
+        </div>
     </div>
 </div>
 </template>
@@ -60,51 +64,27 @@ export default {
           }
           var dat;
           var hsh;
+          var obj;
           if (this.success && this.exp) { //implies document exist to query our db
               hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
               dat = await database.collection("students").doc(this.activeAccount).collection("exp").doc(hsh).get();
-              console.log(dat.data());
+              obj = dat.data();
           } else if (this.success && !this.exp) {
               hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
               dat = await database.collection("students").doc(this.activeAccount).collection("acads").doc(hsh).get();
-              console.log(dat.data());
+              obj = dat.data();
           }
-          console.log(hsh);
+          this.arr = [];
+          try {
+              await Object.keys(obj).forEach(field => {
+                  return this.arr.push(field.toString() + ": " + obj[field]);
+              });
+              await this.arr.sort();
+          } catch(err) {
+              this.success = false;
+              console.log(err);
+          }
       },
-      /*
-      async getGrade() {
-          // Retrieve value using ".call()'
-          this.view.grade = await this.drizzleInstance
-            .contracts
-            .Credential
-            .methods
-            .viewGrade(this.view.addr, this.view.modCode)
-            .call(); 
-       },
-       async getCount() {
-          this.cnt.num = await this.drizzleInstance
-            .contracts
-            .Credential
-            .methods
-            .studentAcadCount(this.cnt.addr)
-            .call();
-       },
-       async decr() {
-           await this.drizzleInstance
-             .contracts
-             .Dummy
-             .methods
-             .decr()
-             .send();
-       },
-       async incr() {
-           await this.drizzleInstance
-             .contracts
-             .Dummy
-             .methods
-             .incr()
-             .send();
-       },*/
   },
   data() {
       return {
@@ -112,19 +92,7 @@ export default {
           success: false,
           status: '',
           exp: false,
-
-          // all these data will serve as arguments to our contract calls
-          /*
-          view: {
-            addr: '',
-            modCode: '',
-            grade: '',
-          },
-          cnt: {
-              addr: '',
-              num: ''
-          }
-          */
+          arr: [],
       }
   },
 }
@@ -144,6 +112,13 @@ label {
     display: inline-block;
     width: 140px;
     text-align: right;
+}
+.scorecard {
+        border-style: solid;
+        border-width: 1px;
+        padding: 10px;
+        border-radius: 16px;
+        border-color: grey
 }
 </style>
 
