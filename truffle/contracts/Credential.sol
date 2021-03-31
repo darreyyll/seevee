@@ -138,7 +138,7 @@ contract Credential {
         "Sender does not have viewing rights"); //Only the owner/verifier/allowed third-party can view the claim
         return claim_records[claim_id].status;
     }
-    function getScore(uint256 claim_id) view public returns (uint8) {
+    function getScore(uint256 claim_id) view public returns (int256) {
         require(claim_records[claim_id].candidate == msg.sender || claim_records[claim_id].verifier == msg.sender || permission_records[claim_id][msg.sender],
         "Sender does not have viewing rights"); //Only the owner/verifier/allowed third-party can view the claim
         return claim_records[claim_id].score;
