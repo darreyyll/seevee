@@ -100,28 +100,30 @@ export default {
           this.switch.exp = true;
       },
       async verifyAcad() {
-          var hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.acad.id).call();
-          var score = 100; //INSERT SOCRING ALGO HERE
+        //   var hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.acad.id).call();
+        //   var score = 100; //INSERT SOCRING ALGO HERE
           var status = 1; //INSERT STATUS FROM SCORE ABOVE
-          //Update database accoridng to institution's entry
-          await database.collection("students").doc(this.acad.user).collection("acads").doc(hsh).update({
-              moduleCode: this.acad.modCode,
-              gradeAttained: this.acad.grade,
+        //   //Update database accoridng to institution's entry
+          await database.collection("students").doc(this.candidateAddress).collection("acads").doc(this.hsh).update({
+            //   moduleCode: this.acad.modCode,
+            //   gradeAttained: this.acad.grade,
+            claim_contents : this.counterclaim
           });
-          await this.drizzleInstance.contracts.Credential.methods.do_score(this.acad.id, score, status).send();
+          await this.drizzleInstance.contracts.Credential.methods.do_score(this.claimId, this.final_score, status).send();
       },
       async verifyExp() {
-          var hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.exp.id).call();
-          var score = 100; //INSERT SOCRING ALGO HERE
+        //   var hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.exp.id).call();
+        //   var score = 100; //INSERT SOCRING ALGO HERE
           var status = 1; //INSERT STATUS FROM SCORE ABOVE
           //Update database accoridng to institution's entry
-          await database.collection("students").doc(this.exp.user).collection("exp").doc(hsh).update({
-              startDate: this.exp.startDate,
-              endDate: this.exp.endDate,
-              performanceRating: this.exp.performanceRating,
-              comments: this.exp.comments,
+          await database.collection("students").doc(this.candidateAddress).collection("exp").doc(this.hsh).update({
+            //   startDate: this.exp.startDate,
+            //   endDate: this.exp.endDate,
+            //   performanceRating: this.exp.performanceRating,
+            //   comments: this.exp.comments,
+            claim_contents : this.counterclaim
           });
-          await this.drizzleInstance.contracts.Credential.methods.do_score(this.exp.id, score, status).send();
+          await this.drizzleInstance.contracts.Credential.methods.do_score(this.claimId, this.final_score, status).send();
       },
       async revokeCred() {
           await this.drizzleInstance.contracts.Credential.methods.revoke(this.revoke.id).send();
@@ -146,6 +148,11 @@ export default {
           console.log(JSON.stringify(this.counterclaim))
           this.computeScore()
           this.computingscore = true;
+          if(this.switch.acad) {
+              this.verifyAcad();
+          } else {
+              this.verifyExp();
+          }
       },
 
      async computeScore() {
@@ -200,6 +207,8 @@ export default {
         this.final_score = this.final_score * 100;
         console.log("Final Score = ", this.final_score)
         this.computingscore = false;
+
+
 
     },
 
