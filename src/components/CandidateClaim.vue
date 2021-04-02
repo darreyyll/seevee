@@ -3,11 +3,19 @@
     <hdrCan></hdrCan>
     <br><hr>
     <p> <b> Claim </b> </p>
+   
     <button class="switch" v-on:click="showAcad"> Academic </button>
     <button class="switch" v-on:click="showExp"> Experience </button>
     <div v-if="this.switch.acad">
     <br>
-    <form>
+    <div class="holdinstdetails">
+    <h3 > Academic Claim </h3>
+    <label > Enter Institution Address </label><br>
+    <input v-model="acadInst"><br>
+    <i>{{acadInst}}</i>
+    </div>
+    <upload-claim v-on:submitted="submit_claim"> </upload-claim>
+    <!-- <form>
         <label> Institution: </label>
         <input type="text" v-model="acad.inst" placeholder="Institution Address"/> <br>
         <label> Module Code: </label>
@@ -16,26 +24,33 @@
         <input type="text" v-model="acad.grade" placeholder="Attained Grade"/> <br>
         <br>
         <button v-on:click.prevent="claimAcad"> Submit Academic Claim </button>
-    </form>
+    </form> -->
     <br>
     </div>
     <div v-if="this.switch.exp">
     <br>
-    <form>
+    <div class="holdinstdetails">
+    <h3 > Experience Claim </h3>
+    <label> Enter Institution Address </label><br>
+    <input v-model="expInst">
+    <i>{{expInst}} </i>
+    </div>
+    <upload-claim v-on:submitted="submit_claim"> </upload-claim>
+    <!-- <form>
         <label> Institution: </label>
         <input type="text" v-model="exp.inst" placeholder="Institution Address"/> <br>
         <label> Start Date: </label>
         <input type="text" v-model="exp.startDate" placeholder="Start Dates"/> <br>
         <label> End Date: </label>
         <input type="text" v-model="exp.endDate" placeholder="End Date"/> <br>
-        <!-- COMPANY WILL KEY IN THIS INFO???... DOESNT RLLY MAKE SENSE FOR CANDIDATE TO KEY THIS IN....-->
+        COMPANY WILL KEY IN THIS INFO???... DOESNT RLLY MAKE SENSE FOR CANDIDATE TO KEY THIS IN....-->
         <!--label> Performance: </label>
         <input type="text" v-model="this.acad.grade" placeholder="Attained Grade"/> <br>
         <label> Comments: </label>
         <input type="text" v-model="this.acad.grade" placeholder="Attained Grade"/> <br-->
-        <br>
+        <!-- <br>
         <button v-on:click.prevent="claimExp"> Submit Experience Claim </button>
-    </form>
+    </form> --> 
     <br>
     </div>
     <hr>
@@ -50,7 +65,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import database from '../firebase.js' //to log our data
-
+import UploadClaim from './UploadClaim2.vue';
 export default {
   name: "app",
   computed: {
@@ -74,17 +89,18 @@ export default {
                if (!doc.exists) {
                    database.collection("students").doc(this.activeAccount).set({});
                    database.collection("students").doc(this.activeAccount).collection("acads").add({
-                       candidateAddress: this.activeAccount,
-                       institutionAddress: this.acad.inst,
-                       moduleCode: this.acad.modCode,
-                       gradeAttained: this.acad.grade,
-                   }).then(async (docRef) => {
+                    //    candidateAddress: this.activeAccount, // HAVE TO COME FROM UPLOADED JSON.
+                    //    institutionAddress: this.acad.inst,
+                    //    moduleCode: this.acad.modCode,
+                    //    gradeAttained: this.acad.grade,
+                    claim_contents : this.claim
+                   }).then(async (docRef) => { // Take docid from firebase
                        this.res.docRef = docRef.id;
                        await this.drizzleInstance
                             .contracts
                             .Credential
                             .methods
-                            .createClaim(this.acad.inst, this.res.docRef)
+                            .createClaim(this.acadInst, this.res.docRef)
                             .send().then(async () => {
                                 this.res.success = true;
                                 this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
@@ -96,17 +112,18 @@ export default {
                    });
                } else {
                    database.collection("students").doc(this.activeAccount).collection("acads").add({
-                       candidateAddress: this.activeAccount,
-                       institutionAddress: this.acad.inst,
-                       moduleCode: this.acad.modCode,
-                       gradeAttained: this.acad.grade,
+                    //    candidateAddress: this.activeAccount,
+                    //    institutionAddress: this.acad.inst,
+                    //    moduleCode: this.acad.modCode,
+                    //    gradeAttained: this.acad.grade,
+                    claim_contents : this.claim
                    }).then(async (docRef) => {
                        this.res.docRef = docRef.id;
                        await this.drizzleInstance
                             .contracts
                             .Credential
                             .methods
-                            .createClaim(this.acad.inst, this.res.docRef)
+                            .createClaim(this.acadInst, this.res.docRef)
                             .send().then(async () => {
                                 this.res.success = true;
                                 this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
@@ -124,19 +141,20 @@ export default {
                if (!doc.exists) {
                    database.collection("students").doc(this.activeAccount).set({});
                    database.collection("students").doc(this.activeAccount).collection("exp").add({
-                       candidateAddress: this.activeAccount,
-                       institutionAddress: this.exp.inst,
-                       startDate: this.exp.startDate,
-                       endDate: this.exp.endDate,
-                       performanceRating: this.exp.performanceRating,
-                       comments: this.exp.comments,
+                    //    candidateAddress: this.activeAccount,
+                    //    institutionAddress: this.exp.inst,
+                    //    startDate: this.exp.startDate,
+                    //    endDate: this.exp.endDate,
+                    //    performanceRating: this.exp.performanceRating,
+                    //    comments: this.exp.comments,
+                    claim_contents : this.claim
                    }).then(async (docRef) => {
                        this.res.docRef = docRef.id;
                        await this.drizzleInstance
                             .contracts
                             .Credential
                             .methods
-                            .createClaim(this.exp.inst, this.res.docRef)
+                            .createClaim(this.expInst, this.res.docRef)
                             .send().then(async () => {
                                 this.res.success = true;
                                 this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
@@ -148,19 +166,20 @@ export default {
                    });
                } else {
                    database.collection("students").doc(this.activeAccount).collection("exp").add({
-                       candidateAddress: this.activeAccount,
-                       institutionAddress: this.exp.inst,
-                       startDate: this.exp.startDate,
-                       endDate: this.exp.endDate,
-                       performanceRating: this.exp.performanceRating,
-                       comments: this.exp.comments,
+                    //    candidateAddress: this.activeAccount,
+                    //    institutionAddress: this.exp.inst,
+                    //    startDate: this.exp.startDate,
+                    //    endDate: this.exp.endDate,
+                    //    performanceRating: this.exp.performanceRating,
+                    //    comments: this.exp.comments,
+                    claim_contents : this.claim
                    }).then(async (docRef) => {
                        this.res.docRef = docRef.id;
                        await this.drizzleInstance
                             .contracts
                             .Credential
                             .methods
-                            .createClaim(this.exp.inst, this.res.docRef)
+                            .createClaim(this.expInst, this.res.docRef)
                             .send().then(async () => {
                                 this.res.success = true;
                                 this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
@@ -173,6 +192,18 @@ export default {
                }
            });
       },
+      submit_claim(json_file) {
+          
+          this.claim = json_file;
+          console.log(this.claim);
+          console.log(JSON.stringify(this.claim))
+          if(this.switch.acad) {
+              this.claimAcad();
+          } else {
+              this.claimExp();
+
+          }
+      }
       /*
       async checkHash() {
           var s = await this.drizzleInstance.contracts.Credential.methods.getStatus(this.res.id).call();
@@ -188,6 +219,9 @@ export default {
               acad: true,
               exp: false,
           },
+          claim : {},
+          acadInst :"",
+          expInst: "",
           acad: {
               inst: '',
               addr: '',
@@ -209,6 +243,9 @@ export default {
           },
       }
   },
+  components : {
+      UploadClaim
+  }
 }
 </script>
 
@@ -231,11 +268,17 @@ export default {
     outline: none;
 }
 
-label {
+/* label {
     display: inline-block;
     width: 140px;
     text-align: right;
+} */
+
+.holdinstdetails {
+    text-align: center;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
 }
+
 </style>
 
 

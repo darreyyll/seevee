@@ -8,11 +8,13 @@
       <p v-if="booluploaded">
           <b> Your File's Contents: </b>
           {{fileText}}
+          <br>
+          <button v-on:click="submit"> Submit Claim </button>
       </p>
     </li>
   </ul>
   
-  <button :disabled="uploadDisabled" @click="upload">Upload</button>
+  <button :disabled="uploadDisabled" @click="upload" v-if="!booluploaded" >Upload</button>
 </div>
 </body>
 </template>
@@ -33,6 +35,9 @@ uploadDisabled() {
 }
 },
   methods:{
+    submit() {
+      this.$emit('submitted', this.fileContent)
+    },
     addFile(e) {
       let droppedFiles = e.dataTransfer.files;
       if(!droppedFiles) return;
