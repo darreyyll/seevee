@@ -63,6 +63,8 @@
     </div>
     <b v-if="computingscore"> Computing Score. Please do not close this browser </b>
     <br><hr>
+    <h3> Candidate's Credential Has Been Scored: </h3>
+    {{final_score}} %<hr>
     <p> <b> Revoke Credential </b> </p>
     <form>
         <label> Credential ID: </label>
@@ -143,6 +145,7 @@ export default {
           console.log(this.counterclaim);
           console.log(JSON.stringify(this.counterclaim))
           this.computeScore()
+          this.computingscore = true;
       },
 
      async computeScore() {
@@ -196,7 +199,7 @@ export default {
         this.final_score = (this.total_potential - this.total_score)/this.total_potential;
         this.final_score = this.final_score * 100;
         console.log("Final Score = ", this.final_score)
-
+        this.computingscore = false;
 
     },
 
