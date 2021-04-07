@@ -79,17 +79,26 @@ export default {
               hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
               dat = await database.collection("students").doc(this.user).collection("exp").doc(hsh).get();
               obj = dat.data();
+              
           } else if (this.success && !this.exp) {
               hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
               dat = await database.collection("students").doc(this.user).collection("acads").doc(hsh).get();
               obj = dat.data();
+              obj = obj["claim_contents"]
           }
           this.arr = [];
           try {
-              await Object.keys(obj).forEach(field => {
-                  return this.arr.push(field.toString() + ": " + obj[field]);
-              });
-              await this.arr.sort();
+            //   await Object.keys(obj).forEach(field => {
+            //       return this.arr.push(field.toString() + ": " + obj[field]);
+            //   });
+            //   await this.arr.sort();
+            for(var key in obj) {
+                console.log("Value = ", obj[key]);
+                console.log("Key", key);
+                var content = key.concat(" : ", obj[key])
+                this.arr.push(content);
+            }
+
           } catch(err) {
               this.success = false;
               console.log(err);
