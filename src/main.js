@@ -19,12 +19,17 @@ import InstitutionView from './components/InstitutionView.vue'
 import HeaderCandidate from './components/HeaderCandidate.vue'
 import HeaderInstitution from './components/HeaderInstitution.vue'
 import firebase from 'firebase'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 
 Vue.config.productionTip = false
 Vue.use(drizzleVuePlugin, { store, drizzleOptions })
 
 Vue.use(VueRouter)
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 const myRouter = new VueRouter({ 
   routes: Routes,

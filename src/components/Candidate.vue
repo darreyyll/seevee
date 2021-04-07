@@ -1,7 +1,8 @@
 <template>
 <div>
     <hdrCan></hdrCan>
-    <br><hr>
+    <form>
+    <br>
     <p> <b> Welcome to SeeVee! </b> </p>
     <p> <u> Claim </u> </p>
     <p> Enter this tab to submit claims to credentials. You will require the institution address and claim details to submit a claim. Retain your claim id for later retrieval. </p>
@@ -9,6 +10,7 @@
     <p> Enter this tab to view your claims to credentials. You can view your claim details as well as verification status. </p>
     <p> <u> Approve </u> </p>
     <p> Enter this tab to approve your credentials for other institutions to view. You will require the institution address and claim ID to submit an approval. </p>
+    </form>
 </div>
 </template>
 

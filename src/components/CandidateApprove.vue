@@ -1,16 +1,24 @@
 <template>
 <div>
     <hdrCan></hdrCan>
-    <br><hr>
-    <p> <b> Approve </b> </p>
     <br>
+    <p> <b> Approve </b> </p>
+
     <form>
-        <label> Institution: </label>
-        <input type="text" v-model="ins" placeholder="Institution Address"/> <br>
-        <label> Claim ID: </label>
-        <input type="number" v-model="claimId" placeholder="ClaimID"/> <br>
-        <br>
-        <button v-on:click.prevent="approve"> Approve </button>
+
+    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+    label=" Institution: " label-align-sm="left">
+        <b-form-input   type="text" v-model="ins" placeholder="Institution Address"></b-form-input>
+    </b-form-group>
+
+    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+    label="Claim ID: " label-align-sm="left">
+        <b-form-input type="number" v-model="claimId" placeholder="ClaimID"></b-form-input>
+    </b-form-group>
+        
+    <br>
+    <button class="btn btn-secondary" v-on:click.prevent="approve"> Approve </button>
+   
     </form>
     <hr>
     <div v-if="this.success">

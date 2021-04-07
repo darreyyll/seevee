@@ -1,7 +1,6 @@
 <template>
 <div>
     <hdrIns></hdrIns>
-    <br><hr>
     <p> <b> Welcome to SeeVee! </b> </p>
     <p> <u> Verify </u> </p>
     <p> Enter this tab to verify credentials. Verification can be an acceptance, rejection or revocation. You will need a claim ID and details to perform verification. </p>

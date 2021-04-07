@@ -1,17 +1,30 @@
 <template>
 <div>
     <hdrCan></hdrCan>
-    <br><hr>
-    <p> <b> View Claim </b> </p>
-    <form>
-        <label> Claim ID: </label>
-        <input type="number" v-model="claimId" placeholder="ClaimID"/> <br>
-        <label for="can"> Academic </label>
-        <input type="radio" name="type" v-model="exp" v-bind:value="false"> <br>
-        <label for="ins"> Experience </label>
-        <input type="radio" name="type" v-model="exp" v-bind:value="true"> <br> 
-        <br>
-        <button v-on:click.prevent="retrieveClaim"> Retrieve Claim </button>
+    <br>
+  
+    <form >
+      <p> <b> View Claim </b> </p>    
+      
+    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+    label="Claim ID: " label-align-sm="left">
+        <b-form-input  type="number" v-model="claimId" placeholder="ClaimID"></b-form-input>
+    </b-form-group>
+
+    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+    label="Claim Type: " label-align-sm="left">
+    <div class="ml-2 mt-2">
+        <input type="radio" name="type" v-model="exp" v-bind:value="false">
+        <label for="can" class="ml-2" style="text-align:left"> Academic </label>
+
+        <br/>
+        <input type="radio" name="type" v-model="exp" v-bind:value="true">
+        <label for="ins" class="ml-2" style="text-align:left"> Experience </label>
+    </div>
+    </b-form-group>
+        
+    <br>
+    <button class="btn btn-secondary" v-on:click.prevent="retrieveClaim"> Retrieve Claim </button>
     </form>
     <hr>
     <div v-if="this.success">
@@ -109,11 +122,6 @@ export default {
   margin-top: 60px;
 }
 
-label {
-    display: inline-block;
-    width: 140px;
-    text-align: right;
-}
 .scorecard {
         border-style: solid;
         border-width: 1px;

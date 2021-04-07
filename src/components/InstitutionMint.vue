@@ -1,53 +1,90 @@
 <template>
 <div>
     <hdrIns></hdrIns>
-    <br><hr>
     <p> <b> Verify Credential </b> </p>
-    <button class="switch" v-on:click="showAcad"> Academic </button>
-    <button class="switch" v-on:click="showExp"> Experience </button>
+
+    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+    label="Claim Type: " label-align-sm="left">
+        <button class="switch btn btn-info"  v-on:click="showAcad"> Academic </button>
+        <button class="switch btn btn-success" v-on:click="showExp"> Experience </button>
+    </b-form-group>
+
+   
     <div v-if="this.switch.acad">
     <br>
     <form>
-        <label> Claim ID: </label>
-        <input type="number" v-model="acad.id" placeholder="ClaimID"/> <br>
-        <label> Candidate: </label>
-        <input type="text" v-model="acad.user" placeholder="Candidate Address"/> <br>
-        <label> Module Code: </label>
-        <input type="text" v-model="acad.modCode" placeholder="Module Code"/> <br>
-        <label> Grade: </label>
-        <input type="text" v-model="acad.grade" placeholder="Attained Grade"/> <br>
+         <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="Claim ID:" label-align-sm="left">
+                <b-form-input type="number" v-model="acad.id" placeholder="ClaimID"></b-form-input>
+         </b-form-group>
+
+          <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="Candidate:" label-align-sm="left">
+                <b-form-input type="text" v-model="acad.user" placeholder="Candidate Address"></b-form-input>
+          </b-form-group>
+
+          <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="Module Code: " label-align-sm="left">
+                <b-form-input type="text" class="mt-3" v-model="acad.modCode" placeholder="Module Code"></b-form-input>
+          </b-form-group>
+
+          <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label=" Grade: " label-align-sm="left">
+                <b-form-input type="text" v-model="acad.grade" placeholder="Attained Grade"></b-form-input>
+          </b-form-group>
+
         <br>
-        <button v-on:click.prevent="verifyAcad"> Verify Academic Credential </button>
+        <button class="btn btn-secondary" v-on:click.prevent="verifyAcad"> Verify Academic Credential </button>
     </form>
     <br>
     </div>
     <div v-if="this.switch.exp">
     <br>
     <form>
-        <label> Claim ID: </label>
-        <input type="number" v-model="exp.id" placeholder="ClaimID"/> <br>
-        <label> Candidate: </label>
-        <input type="text" v-model="exp.user" placeholder="Candidate Address"/> <br>
-        <label> Start Date: </label>
-        <input type="text" v-model="exp.startDate" placeholder="Start Dates"/> <br>
-        <label> End Date: </label>
-        <input type="text" v-model="exp.endDate" placeholder="End Date"/> <br>
-        <label> Performance: </label>
-        <input type="text" v-model="exp.performanceRating" placeholder="Performance Rating"/> <br>
-        <label> Comments: </label>
-        <input type="text" v-model="exp.comments" placeholder="Comments"/> <br>
+        <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="Claim ID:" label-align-sm="left">
+                <b-form-input type="number" v-model="exp.id" placeholder="ClaimID"></b-form-input>
+         </b-form-group>
+
+          <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="Candidate: " label-align-sm="left">
+                <b-form-input type="text" v-model="exp.user" placeholder="Candidate Address"></b-form-input>
+          </b-form-group>
+
+           <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="Start Date: " label-align-sm="left">
+                <b-form-input type="text" v-model="exp.startDate" placeholder="Start Dates"></b-form-input>
+           </b-form-group>
+
+           <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="End Date: " label-align-sm="left">
+                <b-form-input  type="text" v-model="exp.endDate" placeholder="End Date"></b-form-input>
+           </b-form-group>
+
+           <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="Performance: " label-align-sm="left">
+                <b-form-input  type="text" v-model="exp.performanceRating" placeholder="Performance Rating"></b-form-input>
+           </b-form-group>
+
+           <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="Comments: " label-align-sm="left">
+                <b-form-input type="text" v-model="exp.comments" placeholder="Comments"></b-form-input>
+           </b-form-group>
         <br>
-        <button v-on:click.prevent="verifyExp"> Verify Experience Credential </button>
+        <button class="btn btn-secondary" v-on:click.prevent="verifyExp"> Verify Experience Credential </button>
     </form>
     <br>
     </div>
     <br><hr>
     <p> <b> Revoke Credential </b> </p>
     <form>
-        <label> Credential ID: </label>
-        <input type="number" v-model="revoke.id" placeholder="Credential ID"/> <br> 
+         <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+           label="Credential ID: " label-align-sm="left">
+                <b-form-input type="number" v-model="revoke.id" placeholder="Credential ID"></b-form-input>
+         </b-form-group>
+       
         <br>
-        <button v-on:click.prevent="revokeCred"> Revoke Credential </button>
+        <button class="btn btn-danger" v-on:click.prevent="revokeCred"> Revoke Credential </button>
     </form>
     <br>
 </div>

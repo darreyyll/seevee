@@ -1,18 +1,23 @@
 <template>
 <div>
-    <div class="logo"> SeeVee 
-    <button v-on:click="logOut" class="loButton"> LogOut </button>
-    </div>
-
-    <br>
-
-    <div class="nav">
+      <b-navbar toggleable="lg" type="dark" variant="info">
+      <b-navbar-brand href="#">SeeVee</b-navbar-brand>
+         <b-navbar-nav>
         <router-link class="r" to="/institution" exact> Institution </router-link>
         <router-link class="r" to="/institution/mint" exact> Verify </router-link>
         <!-- Remove since we are not doing institution requesting access alr-->
         <!--router-link class="r" to="/institution/request" exact> Request </router-link-->
         <router-link class="r" to="/institution/view" exact> View </router-link>
-    </div>
+         </b-navbar-nav>
+         <b-navbar-nav class="ml-auto">
+          <b-nav-item v-on:click="logOut">
+          LogOut
+       </b-nav-item>
+      </b-navbar-nav>
+      </b-navbar>
+ 
+
+    <br>
 </div>
 </template>
 
