@@ -24,6 +24,9 @@
     <div v-if="valid_claimid">
     <upload-claim v-on:submitted="submit_claim"> </upload-claim>
     </div>
+    <!--div v-if="!valid_claimid">
+    <p> Please Insert a Valid Claim ID to Verify </p>
+    </div-->
     <!-- <form>
         <label> Claim ID: </label>
         <input type="number" v-model="acad.id" placeholder="ClaimID"/> <br>
@@ -44,10 +47,21 @@
     <div class="holdinstdetails">
     <h3 > Experience Claim </h3>
     <label > Enter Claim ID </label><br>
-    <input v-model="claimId"><br>
-    <i>{{claimId}}</i>
+    <input v-model="claimId" @change="checkClaimId"><br>
+    <i>{{claimId}}</i> <br><br>
+    <label > Enter Candidate's Address </label><br>
+    <input v-model="candidateAddress"><br>
+    <i>{{candidateAddress}}</i>
     </div>
+    <div v-if="valid_claimid">
     <upload-claim v-on:submitted="submit_claim"> </upload-claim>
+    </div>
+    <!--div v-if="!valid_claimid">
+    <p> Please Insert a Valid Claim ID to Verify </p>
+    </div-->
+
+
+    <!--upload-claim v-on:submitted="submit_claim"> </upload-claim-->
     <!-- <form>
         <label> Claim ID: </label>
         <input type="number" v-model="exp.id" placeholder="ClaimID"/> <br>
@@ -112,11 +126,11 @@ export default {
         //   var score = 100; //INSERT SOCRING ALGO HERE
           var status = 1; //INSERT STATUS FROM SCORE ABOVE
         //   //Update database accoridng to institution's entry
-          await database.collection("students").doc(this.candidateAddress).collection("acads").doc(this.hsh).update({
+          await database.collection("students").doc(this.candidateAddress).collection("acads").doc(this.hsh).update(
             //   moduleCode: this.acad.modCode,
             //   gradeAttained: this.acad.grade,
-            claim_contents : this.counterclaim
-          });
+            this.counterclaim
+          );
           await this.drizzleInstance.contracts.Credential.methods.do_score(this.claimId, this.final_score, status).send();
       },
       async verifyExp() {
@@ -124,13 +138,13 @@ export default {
         //   var score = 100; //INSERT SOCRING ALGO HERE
           var status = 1; //INSERT STATUS FROM SCORE ABOVE
           //Update database accoridng to institution's entry
-          await database.collection("students").doc(this.candidateAddress).collection("exp").doc(this.hsh).update({
+          await database.collection("students").doc(this.candidateAddress).collection("exp").doc(this.hsh).update(
             //   startDate: this.exp.startDate,
             //   endDate: this.exp.endDate,
             //   performanceRating: this.exp.performanceRating,
             //   comments: this.exp.comments,
-            claim_contents : this.counterclaim
-          });
+            this.counterclaim
+          );
           await this.drizzleInstance.contracts.Credential.methods.do_score(this.claimId, this.final_score, status).send();
       },
       async revokeCred() {
@@ -141,10 +155,12 @@ export default {
             var check = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
             // console.log("CHECK = ", check);
             this.hsh = check;
+            console.log(this.hsh);
             this.valid_claimid = true;
           } catch(err) {
               console.log("err")
-              this.claimId = "INVALID"
+              //this.claimId = "INVALID"
+              this.valid_claim_id = false;
           }
 
       },
@@ -170,7 +186,7 @@ export default {
              await database.collection('students').doc(this.candidateAddress).collection("acads").doc(this.hsh).get().then((doc) => {
                  if(doc.exists) {
                     this.claim = doc.data()
-                    this.claim = this.claim["claim_contents"]
+                    //this.claim = this.claim["claim_contents"]
                  }
              }).catch((error) => {
                     console.log("Error getting document:", error);
@@ -180,8 +196,8 @@ export default {
          } else {
             await database.collection('students').doc(this.candidateAddress).collection("exp").doc(this.hsh).get().then((doc) => {
                  if(doc.exists) {
-                     console.log("DOC = ", doc.data())
-                    this.claim = doc.data()["claim_contents"];
+                    //console.log("DOC = ", doc.data())
+                    this.claim = doc.data()/*["claim_contents"]*/;
                  }
              }).catch((error) => {
                     console.log("Error getting document:", error);
@@ -210,9 +226,10 @@ export default {
             }
         }
 
-        console.log("Total Score", this.total_potential - this.total_score, " Total Potential", this.total_potential)
+        console.log("Total Score", this.total_potential - this.total_score, " Total Potential", this.total_potential) 
         this.final_score = (this.total_potential - this.total_score)/this.total_potential;
         this.final_score = this.final_score * 100;
+        this.final_score = Math.floor(this.final_score); //floating point error - force to floor int
         console.log("Final Score = ", this.final_score)
         this.computingscore = false;
 

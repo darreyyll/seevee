@@ -4,8 +4,13 @@
     <br>
     <p> <b> Claim </b> </p>
    
-    <button class="switch" v-on:click="showAcad"> Academic </button>
-    <button class="switch" v-on:click="showExp"> Experience </button>
+    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+    label="Claim Type: " label-align-sm="left">
+        <button class="switch btn btn-info"  v-on:click="showAcad"> Academic </button>
+        <button class="switch btn btn-success" v-on:click="showExp"> Experience </button>
+    </b-form-group>
+    <!--button class="switch" v-on:click="showAcad"> Academic </button>
+    <button class="switch" v-on:click="showExp"> Experience </button-->
     <div v-if="this.switch.acad">
     <br>
     <div class="holdinstdetails">
@@ -88,13 +93,13 @@ export default {
           await database.collection("students").doc(this.activeAccount).get().then(doc => {
                if (!doc.exists) {
                    database.collection("students").doc(this.activeAccount).set({});
-                   database.collection("students").doc(this.activeAccount).collection("acads").add({
+                   database.collection("students").doc(this.activeAccount).collection("acads").add(
                     //    candidateAddress: this.activeAccount, // HAVE TO COME FROM UPLOADED JSON.
                     //    institutionAddress: this.acad.inst,
                     //    moduleCode: this.acad.modCode,
                     //    gradeAttained: this.acad.grade,
-                    claim_contents : this.claim
-                   }).then(async (docRef) => { // Take docid from firebase
+                    this.claim
+                   ).then(async (docRef) => { // Take docid from firebase
                        this.res.docRef = docRef.id;
                        await this.drizzleInstance
                             .contracts
@@ -111,13 +116,13 @@ export default {
                             });
                    });
                } else {
-                   database.collection("students").doc(this.activeAccount).collection("acads").add({
+                   database.collection("students").doc(this.activeAccount).collection("acads").add(
                     //    candidateAddress: this.activeAccount,
                     //    institutionAddress: this.acad.inst,
                     //    moduleCode: this.acad.modCode,
                     //    gradeAttained: this.acad.grade,
-                    claim_contents : this.claim
-                   }).then(async (docRef) => {
+                    this.claim
+                   ).then(async (docRef) => {
                        this.res.docRef = docRef.id;
                        await this.drizzleInstance
                             .contracts
@@ -140,15 +145,15 @@ export default {
           await database.collection("students").doc(this.activeAccount).get().then(doc => {
                if (!doc.exists) {
                    database.collection("students").doc(this.activeAccount).set({});
-                   database.collection("students").doc(this.activeAccount).collection("exp").add({
+                   database.collection("students").doc(this.activeAccount).collection("exp").add(
                     //    candidateAddress: this.activeAccount,
                     //    institutionAddress: this.exp.inst,
                     //    startDate: this.exp.startDate,
                     //    endDate: this.exp.endDate,
                     //    performanceRating: this.exp.performanceRating,
                     //    comments: this.exp.comments,
-                    claim_contents : this.claim
-                   }).then(async (docRef) => {
+                    this.claim
+                   ).then(async (docRef) => {
                        this.res.docRef = docRef.id;
                        await this.drizzleInstance
                             .contracts
@@ -165,15 +170,15 @@ export default {
                             });
                    });
                } else {
-                   database.collection("students").doc(this.activeAccount).collection("exp").add({
+                   database.collection("students").doc(this.activeAccount).collection("exp").add(
                     //    candidateAddress: this.activeAccount,
                     //    institutionAddress: this.exp.inst,
                     //    startDate: this.exp.startDate,
                     //    endDate: this.exp.endDate,
                     //    performanceRating: this.exp.performanceRating,
                     //    comments: this.exp.comments,
-                    claim_contents : this.claim
-                   }).then(async (docRef) => {
+                    this.claim
+                   ).then(async (docRef) => {
                        this.res.docRef = docRef.id;
                        await this.drizzleInstance
                             .contracts
