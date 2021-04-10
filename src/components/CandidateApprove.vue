@@ -3,12 +3,9 @@
     <hdrCan></hdrCan>
     <br>
     <p> <b> Approve </b> </p>
-    
 
     <form>
-      <b-row>
-        <b-col cols="5"> <b-alert variant="danger" :show="showerror">Please enter valid informations</b-alert></b-col>
-      </b-row>
+
     <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
     label=" Institution: " label-align-sm="left">
         <b-form-input   type="text" v-model="ins" placeholder="Institution Address"></b-form-input>
@@ -42,8 +39,6 @@ export default {
   },
   methods: {
       async approve() {
-          this.showerror =false;
-          if(this.claimId.trim()!="" && this.ins.trim()!=""){
           this.success = false;
           await this.drizzleInstance
             .contracts
@@ -54,13 +49,8 @@ export default {
                 this.success = true;
             }).catch((err) => {
                 this.success = false;
-                 this.showerror =true;
                 console.log(err);
             });
-      }
-      else{
-           this.showerror =true;
-      }
       },
 
   },
@@ -70,7 +60,6 @@ export default {
           ins: '',
           claimId:'',
           success: false,
-          showerror:false,
       }
   },
 }
