@@ -9,6 +9,11 @@
 
 
       <b-form>
+      <b-row>
+        <b-col cols="1"></b-col>
+        <b-col cols="5"> <b-alert variant="danger"  :show="showerror">Invalid login credential!</b-alert></b-col>
+      </b-row>
+    
        <b-form-group label-cols-sm="2"
         label-cols-lg="2" content-cols-sm content-cols-lg="4"
         label="User Account: " label-align-sm="right" >
@@ -79,10 +84,14 @@ export default {
       usrAddress: "",
       pw: "",
       ins: "",
+      showerror:false,
     };
   },
   methods: {
     async login() {
+     
+      if(this.pw.trim()!=""){
+      this.showerror = false;
       this.usrAddress = this.activeAccount.toString() + "@seevee.com"; //format to email
       event.preventDefault();
       var dat = await database
@@ -109,9 +118,15 @@ export default {
                 */
           },
           (err) => {
+            this.showerror = true;
             console.log(err.message);
+            
           }
         );
+    }
+    else{
+         this.showerror = true;
+    }
     },
     register() {
       this.$router.push("/register");
