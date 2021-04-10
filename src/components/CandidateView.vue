@@ -2,7 +2,10 @@
 <div>
     <hdrCan></hdrCan>
     <br>
-  
+    <div>
+        Your Claims:
+        {{ claimsarr }}
+    </div>
     <form >
       <p> <b> View Claim </b> </p>    
       
@@ -50,6 +53,7 @@ export default {
       ...mapGetters("accounts",["activeAccount","activeBalance"]),
       ...mapGetters("drizzle",["drizzleInstance","isDrizzleInitialized"]),
   },
+ 
   methods: {
       async dummy() {
           console.log(database);
@@ -140,8 +144,21 @@ export default {
           arr: [],
           claimScore: '',
           candidateScore: '',
+          claimsarr: []
       }
   },
+  beforeMount() {
+        var dbinst = database.collection("students").doc(this.activeAccount).collection("claimlog");
+        dbinst.get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                console.log("CLAIM", doc.data()["claimID"]);
+                this.claimsarr.push(doc.data()["claimID"]);
+            });
+        }).catch((err) => {
+            console.log(err);
+        })
+
+    }
 }
 </script>
 

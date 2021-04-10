@@ -204,10 +204,21 @@ export default {
           console.log(JSON.stringify(this.claim))
           if(this.switch.acad) {
               this.claimAcad();
+              this.logclaim(this.res.id);
           } else {
               this.claimExp();
+              this.logclaim(this.res.id);
+
 
           }
+      },
+
+      logclaim(docRef) {
+          database.collection("students").doc(this.activeAccount).collection("claimlog").add({
+              "claimID" : docRef
+              }).then(() => {
+              console.log("Logged Claim!")
+          })
       }
       /*
       async checkHash() {
