@@ -30,6 +30,8 @@
     <div v-if="this.success">
         <!-- Can add score here if status is valid -->
         <p> Credential status is <b><u> {{this.status}}.</u></b> </p>
+        <p> The claim score is <b><u> {{this.claimScore}}. </u></b> </p>
+        <!--p> The candidate score is <b><u> {{this.candidateScore}}. </u></b> </p-->
         <div class="scorecard">
             <p> <b> <i> Details: </i> </b> </p>
             <p v-for="field in arr" v-bind:key="field"> {{field}} </p>
@@ -72,6 +74,35 @@ export default {
           } else {
               this.status = "error";
           }
+          var clmScore = await this.drizzleInstance
+            .contracts
+            .Credential
+            .methods
+            .getScore(this.claimId)
+            .call().catch((err) => { //call has no "then"!?
+                this.success = false;
+                console.log(err);
+            });
+          if (clmScore == -1) {
+              this.claimScore = "Score Not Avaliable Yet"
+          } else {
+              this.claimScore = clmScore
+          }
+          /*
+          var canScore = await this.drizzleInstance
+            .contracts
+            .Credential
+            .methods
+            .getCandidateScore(this.claimId)
+            .call().catch((err) => { //call has no "then"!?
+                this.success = false;
+                console.log(err);
+            });
+          if (canScore == -1) {
+              this.candidateScore = "Score Not Avaliable Yet"
+          } else {
+              this.candidateScore = canScore
+          }*/
           var dat;
           var hsh;
           var obj;
@@ -79,12 +110,16 @@ export default {
               hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
               dat = await database.collection("students").doc(this.user).collection("exp").doc(hsh).get();
               obj = dat.data();
-              
+              if (obj == undefined) {
+                  this.success=false;
+              }
           } else if (this.success && !this.exp) {
               hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
               dat = await database.collection("students").doc(this.user).collection("acads").doc(hsh).get();
               obj = dat.data();
-              obj = obj["claim_contents"]
+              if (obj == undefined) {
+                  this.success=false;
+              }
           }
           this.arr = [];
           try {
@@ -114,6 +149,8 @@ export default {
           exp: false,
           arr: [],
           user: '',
+          claimScore: '',
+          candidateScore: '',
       }
   },
 }

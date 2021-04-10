@@ -84,7 +84,7 @@ uploadDisabled() {
 
 <style>
 #dragapp {
-    background-color: lightsteelblue;
+    background-color: #17a2b8;
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 180px;
