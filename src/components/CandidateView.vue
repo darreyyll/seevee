@@ -4,7 +4,9 @@
     <br>
     <div>
         Your Claims:
-        {{ claimsarr }}
+        <ul>
+        <li v-for="claim in claimsarr" :key="claim"> {{ claim }} </li>
+        </ul>
     </div>
     <form >
       <p> <b> View Claim </b> </p>    
@@ -19,7 +21,7 @@
     <div class="ml-2 mt-2">
         <input type="radio" name="type" v-model="exp" v-bind:value="false">
         <label for="can" class="ml-2" style="text-align:left"> Academic </label>
-
+ 
         <br/>
         <input type="radio" name="type" v-model="exp" v-bind:value="true">
         <label for="ins" class="ml-2" style="text-align:left"> Experience </label>
@@ -156,7 +158,7 @@ export default {
             });
         }).catch((err) => {
             console.log(err);
-        })
+        });
 
     }
 }
