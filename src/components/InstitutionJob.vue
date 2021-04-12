@@ -64,8 +64,9 @@ export default {
         },
         queryJob(event) {
             event.preventDefault();
+            this.applicants = [];
             this.queried = true;
-            database.collection("jobapps").doc(this.jobid).get().then((querySnapshot) => {
+            database.collection("jobapps").doc(this.queryjobid).collection("applications").get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     console.log("Applicant : ", doc.data()["applicantAddress"]);
                     this.applicants.push(doc.data());

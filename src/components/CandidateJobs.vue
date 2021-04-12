@@ -50,7 +50,7 @@ export default {
     methods : {
         async applyjob(jobid, instadd) {
             console.log(jobid, instadd);
-            await database.collection("jobapps").doc(jobid).set({
+            await database.collection("jobapps").doc(jobid).collection("applications").add({
                 "applicantAddress" : this.activeAccount,
                 "claims" : this.claimsarr
             }).then(async () => {
