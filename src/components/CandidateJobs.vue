@@ -66,6 +66,8 @@ export default {
                             .send()
                             .then(() => {
                                 console.log("Successfully granted permission!");
+                                //console.log(instadd);
+                                //console.log(claimid);
                             });
                     
                 }

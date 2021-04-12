@@ -109,6 +109,7 @@ export default {
                             .send().then(async () => {
                                 this.res.success = true;
                                 this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
+                                this.logclaim(this.res.id);
                             }).catch(async (err) => {
                                 this.res.success = false;
                                 this.res.id = 0;
@@ -132,6 +133,7 @@ export default {
                             .send().then(async () => {
                                 this.res.success = true;
                                 this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
+                                this.logclaim(this.res.id);
                             }).catch(async (err) => {
                                 this.res.success = false;
                                 this.res.id = 0;
@@ -163,6 +165,7 @@ export default {
                             .send().then(async () => {
                                 this.res.success = true;
                                 this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
+                                this.logclaim(this.res.id);
                             }).catch(async (err) => {
                                 this.res.success = false;
                                 this.res.id = 0;
@@ -188,6 +191,7 @@ export default {
                             .send().then(async () => {
                                 this.res.success = true;
                                 this.res.id = await this.drizzleInstance.contracts.Credential.methods.getClaimId().call();
+                                this.logclaim(this.res.id);
                             }).catch(async (err) => {
                                 this.res.success = false;
                                 this.res.id = 0;
@@ -204,10 +208,10 @@ export default {
           console.log(JSON.stringify(this.claim))
           if(this.switch.acad) {
               this.claimAcad();
-              this.logclaim(this.res.id);
+              //this.logclaim(this.res.id);
           } else {
               this.claimExp();
-              this.logclaim(this.res.id);
+              //this.logclaim(this.res.id);
 
 
           }
