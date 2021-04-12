@@ -8,6 +8,7 @@
         <!-- Remove since we are not doing institution requesting access alr-->
         <!--router-link class="r" to="/institution/request" exact> Request </router-link-->
         <router-link class="r" to="/institution/view" exact> View </router-link>
+        <router-link class="r" to="/institution/job" exact> Jobs </router-link>
          </b-navbar-nav>
          <b-navbar-nav class="ml-auto">
           <b-nav-item v-on:click="logOut">

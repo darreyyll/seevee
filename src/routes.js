@@ -4,10 +4,12 @@ import Candidate from './components/Candidate.vue'
 import CandidateApprove from './components/CandidateApprove.vue'
 import CandidateView from './components/CandidateView.vue'
 import CandidateClaim from './components/CandidateClaim.vue'
+import CandidateJobs from './components/CandidateJobs.vue'
 import Institution from './components/Institution.vue'
 import InstitutionMint from './components/InstitutionMint.vue'
 import InstitutionRequest from './components/InstitutionRequest.vue'
 import InstitutionView from './components/InstitutionView.vue'
+import InstitutionJob from './components/InstitutionJob.vue';
 
 export default[
 
@@ -48,6 +50,13 @@ export default[
         }
     },
     {
+        path: '/candidate/jobs', 
+        component: CandidateJobs,
+        meta : {
+            requiresAuth: true
+        }
+    },
+    {
         path: '/institution', 
         component: Institution,
         meta : {
@@ -71,6 +80,13 @@ export default[
     {
         path: '/institution/view', 
         component: InstitutionView,
+        meta : {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/institution/job', 
+        component: InstitutionJob,
         meta : {
             requiresAuth: true
         }

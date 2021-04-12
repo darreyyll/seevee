@@ -6,9 +6,11 @@
         <router-link class="r" to="/candidate" exact> Home </router-link>
         <router-link class="r" to="/candidate/claim" exact> Claim </router-link>
         <router-link class="r" to="/candidate/view" exact> View </router-link>
-        <router-link class="r" to="/candidate/approve" exact>
+        <router-link class="r" to="/candidate/approve" exact> 
+        
           Approve
         </router-link>
+        <router-link class="r" to="/candidate/jobs" exact> Jobs </router-link>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
           <b-nav-item v-on:click="logOut">
