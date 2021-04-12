@@ -99,7 +99,7 @@
         </form>
         <br>
     </div>
-    <button v-on:click.prevent="dummy"> TEST </button>
+    <!--button v-on:click.prevent="dummy"> TEST </button-->
 </div>
 </template>
 
@@ -115,10 +115,11 @@ export default {
       ...mapGetters("drizzle",["drizzleInstance","isDrizzleInitialized"]),
   },
   methods: {
+      /*
       async dummy() {
           console.log(this.total_score);
           console.log(this.total_potential);
-      },
+      },*/
       showAcad() {
           this.switch.acad = true;
           this.switch.exp = false;
