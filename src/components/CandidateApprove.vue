@@ -1,28 +1,29 @@
 <template>
 <div>
     <hdrCan></hdrCan>
-    <br>
-    <p> <b> Approve </b> </p>
+    <div class="contentCanApp">
+        <p style="font-size: 20px;"> <b> Approve </b> </p>
 
-    <form>
+        <form>
 
-    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
-    label=" Institution: " label-align-sm="left">
-        <b-form-input   type="text" v-model="ins" placeholder="Institution Address"></b-form-input>
-    </b-form-group>
+        <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+        label=" Institution: " label-align-sm="left">
+            <b-form-input   type="text" v-model="ins" placeholder="Institution Address"></b-form-input>
+        </b-form-group>
 
-    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
-    label="Claim ID: " label-align-sm="left">
-        <b-form-input type="number" v-model="claimId" placeholder="ClaimID"></b-form-input>
-    </b-form-group>
-        
-    <br>
-    <button class="btn btn-secondary" v-on:click.prevent="approve"> Approve </button>
-   
-    </form>
-    <hr>
-    <div v-if="this.success">
-    <p> Approval <b> <u> success. </u> </b> </p>
+        <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+        label="Claim ID: " label-align-sm="left">
+            <b-form-input type="number" v-model="claimId" placeholder="ClaimID"></b-form-input>
+        </b-form-group>
+            
+        <br>
+        <button class="btn btn-secondary" v-on:click.prevent="approve"> Approve </button>
+       
+        </form>
+        <hr>
+        <div v-if="this.success">
+        <p> Approval <b> <u> success. </u> </b> </p>
+        </div>
     </div>
 </div>
 </template>
@@ -73,6 +74,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.contentCanApp {
+    padding: 0px 20px 20px 20px;
 }
 </style>
 

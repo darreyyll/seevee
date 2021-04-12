@@ -2,10 +2,11 @@ pragma solidity ^0.5.0;
 
 contract Credential {
     
-    mapping(address => claim[]) candidate_claim_records;
+    mapping(address => claim[]) public candidate_claim_records;
     mapping(uint256 => claim) public claim_records;
-    mapping(uint256 => mapping(address => bool)) permission_records; // Claim Id ==> Third Party's Address => Bool of permission given
-
+    mapping(uint256 => mapping(address => bool)) public permission_records; // Claim Id ==> Third Party's Address => Bool of permission given
+    mapping(address => int256) public candidate_total_scores;
+    mapping(address => int256) public candidate_verified_claim_count;
     mapping(address => bool) public candidate_pool;
     mapping(address => bool) public institution_pool;
 
@@ -32,7 +33,6 @@ contract Credential {
         return result;
     }
 
-
     function listCandidate(address candidate) public {
         if (recordExists(candidate)){
             revert("Account has previously been registered");
@@ -48,7 +48,7 @@ contract Credential {
         } else {
         institution_pool[institution] = true;
         emit institutionListed(institution);
-    }
+        }
     }
 
     function createClaim(address verifying_institution, string memory details) public {
@@ -66,41 +66,44 @@ contract Credential {
         );
 
         // when they call this, then it sends to a verifier
-        // Add event to listen to this --> allows for notification of verifier
         emit claimCreated(claim_counter, verifying_institution);
         
         // Add to candidate_claim_records
         candidate_claim_records[msg.sender].push(newClaim);
 
-        // claim_records
+        // update claim_records
         claim_records[claim_counter] = newClaim;
         claim_counter++;
     }
-
-    /*
-    function verify_claim(uint256 claimid) public {
-        // won't update on blockchain
-        // returns status
-        // return pointer of claim?
-    }
-    */
 
     function do_score(uint256 claimId, int256 score, uint8 status) public {
         require(institution_pool[msg.sender], "Sender is not a listed institution");
         require(claim_records[claimId].score == -1, "Claim already assigned a score");
         require(claim_records[claimId].status == 2, "Only pending claims can be assigned a new score");
         require(claim_records[claimId].verifier == msg.sender, "Sender does not have verifying rights");
-        
-        //question: what does the do_score fn have to do with permission_records (abit confused here :D)
 
-         // update score
+         // update claim score
         claim_records[claimId].score = score; 
+
+        // update candidate total score
+        address candidate = claim_records[claimId].candidate;
+        int256 prev_score = candidate_total_scores[candidate];
+        int256 claim_count = candidate_verified_claim_count[candidate];
+        int256 updated_score;
+        if(claim_count == 0) {
+            updated_score = score;
+            claim_count = 1;
+        } else {
+            updated_score = (prev_score * claim_count) + score;
+            claim_count += 1;
+            updated_score = updated_score / claim_count; 
+        }
+        candidate_total_scores[candidate] = updated_score;
+        candidate_verified_claim_count[candidate] = claim_count;
+
         // update status
         claim_records[claimId].status = status;
-        // logic to determine score and status to be done in vue?
     }
-
-    
 
     function revoke(uint256 claim_id) public {
         require(institution_pool[msg.sender], "Sender is not a listed institution");
@@ -108,13 +111,31 @@ contract Credential {
         
         //change status to revoke claim validity
         claim_records[claim_id].status = 3; // 3 for revoke status
+
+        // update candidate total score
+        address candidate = claim_records[claim_id].candidate;
+        int256 prev_score = candidate_total_scores[candidate];
+        int256 revoked_score = claim_records[claim_id].score;
+        int256 claim_count = candidate_verified_claim_count[candidate];
+        int256 updated_score;
+
+        if (claim_count == 1) {
+            updated_score = 0;
+            claim_count = 0;
+        } else {
+            updated_score = ((prev_score * claim_count) - revoked_score) / (claim_count - 1);
+            claim_count -= 1;
+        }
+        
+        candidate_total_scores[candidate] = updated_score;
+        candidate_verified_claim_count[candidate] = claim_count;
+        
     }
 
     function givePermission(address thirdParty, uint256 claim_id) public {
         require(candidate_pool[msg.sender], "Sender is not in candidate pool");
         require(claim_records[claim_id].candidate == msg.sender, "Sender is not the candidate of specified claim");
-        require(institution_pool[thirdParty], "Sender is not a listed institution");
-
+        require(institution_pool[thirdParty], "Third party is not a listed institution");
 
         permission_records[claim_id][thirdParty] = true;
     }
@@ -123,8 +144,6 @@ contract Credential {
         require(claim_records[claim_id].candidate == msg.sender || claim_records[claim_id].verifier == msg.sender || permission_records[claim_id][msg.sender],
         "Sender does not have viewing rights"); //Only the owner/verifier/allowed third-party can view the claim
         return(claim_records[claim_id].content);
-        
-        //View claim --> Returns JSON?
     }
 
 
@@ -142,5 +161,8 @@ contract Credential {
         require(claim_records[claim_id].candidate == msg.sender || claim_records[claim_id].verifier == msg.sender || permission_records[claim_id][msg.sender],
         "Sender does not have viewing rights"); //Only the owner/verifier/allowed third-party can view the claim
         return claim_records[claim_id].score;
+    }
+    function getCandidateScore(address candidate) view public returns (int256) {
+        return candidate_total_scores[candidate];
     }
 }

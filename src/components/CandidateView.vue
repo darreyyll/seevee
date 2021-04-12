@@ -1,14 +1,22 @@
 <template>
 <div>
     <hdrCan></hdrCan>
-    <br>
-    <div>
-        Your Claims:
+    <div class="contentCanVw">
+        <p style="font-size: 20px;"> <b> View: </b> </p>
+        <p> Your candidate score is <b><u> {{this.candidateScore}} </u></b>. </p>
+        <p> Your Claims: </p>
         <ul>
-        <li v-for="claim in claimsarr" :key="claim"> {{ claim }} </li>
+        <li v-for="claim in claimsarr" :key="claim">
+            <ul class="scorecard">
+            <li v-for="field in claim" :key="field">
+                {{field}}
+            </li>
+            </ul>
+        </li>
         </ul>
+    <hr>
     </div>
-    <form >
+    <!--form >
       <p> <b> View Claim </b> </p>    
       
     <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
@@ -30,18 +38,16 @@
         
     <br>
     <button class="btn btn-secondary" v-on:click.prevent="retrieveClaim"> Retrieve Claim </button>
-    </form>
-    <hr>
-    <div v-if="this.success">
-        <!-- Can add score here if status is valid -->
+    </form-->
+    <!--div v-if="this.success">
         <p> Credential status is <b><u> {{this.status}}.</u></b> </p>
         <p> The claim score is <b><u> {{this.claimScore}}. </u></b> </p>
-        <!--p> The candidate score is <b><u> {{this.candidateScore}}. </u></b> </p-->
+        <p> The candidate score is <b><u> {{this.candidateScore}}. </u></b> </p>
         <div class="scorecard">
             <p> <b> <i> Details: </i> </b> </p>
             <p v-for="field in arr" v-bind:key="field"> {{field}} </p>
         </div>
-    </div>
+    </div-->
 </div>
 </template>
 
@@ -61,62 +67,94 @@ export default {
           console.log(database);
 
       },
-      async retrieveClaim() {
+      async retrieveClaim(claimId) {
           this.success = true; //reset
-          this.status = ''; //reset
+          var status; //reset
           var s = await this.drizzleInstance
             .contracts
             .Credential
             .methods
-            .getStatus(this.claimId)
+            .getStatus(claimId)
             .call().catch((err) => { //call has no "then"!?
                 this.success = false;
                 console.log(err);
             });
           if (s=="0") {
-              this.status = "rejected";
+              status = "rejected";
           } else if (s=="1") {
-              this.status = "verified";
+              status = "verified";
           } else if (s=="2") {
-              this.status = "pending";
+              status = "pending";
           } else if (s=="3") {
-              this.status = "revoked";
+              status = "revoked";
           } else {
-              this.status = "error";
+              status = "error";
           }
+          var claimScore;
           var clmScore = await this.drizzleInstance
             .contracts
             .Credential
             .methods
-            .getScore(this.claimId)
+            .getScore(claimId)
             .call().catch((err) => { //call has no "then"!?
                 this.success = false;
                 console.log(err);
             });
           if (clmScore == -1) {
-              this.claimScore = "Score Not Avaliable Yet"
+              claimScore = "Score Not Avaliable Yet"
           } else {
-              this.claimScore = clmScore
+              claimScore = clmScore
           }
-          /*
+          //var candidateScore;
           var canScore = await this.drizzleInstance
             .contracts
             .Credential
             .methods
-            .getCandidateScore(this.claimId)
+            .getCandidateScore(this.activeAccount)
             .call().catch((err) => { //call has no "then"!?
                 this.success = false;
                 console.log(err);
             });
           if (canScore == -1) {
               this.candidateScore = "Score Not Avaliable Yet"
+              //console.log(canScore);
+              //console.log(candidateScore);
           } else {
-              this.candidateScore = canScore
-          }*/
+              this.candidateScore = canScore;
+              //console.log(canScore);
+              //console.log(candidateScore);
+          }
           var dat;
           var hsh;
           var obj;
-          if (this.success && this.exp) { //implies document exist to query our db
+          if (this.success) {
+              hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(claimId).call();
+              await database.collection("students").doc(this.activeAccount).collection("acads").doc(hsh).get().then(async doc => {
+                  if (doc.exists) {
+                      dat = await database.collection("students").doc(this.activeAccount).collection("acads").doc(hsh).get();
+                      obj = dat.data();
+                  } else {
+                      dat = await database.collection("students").doc(this.activeAccount).collection("exp").doc(hsh).get();
+                      obj = dat.data();
+                  }
+              })
+          }
+          var arr = [];
+          arr.push("Claim ID: " + claimId);
+          arr.push("Claim Score: " + claimScore);
+          //arr.push("Candidate Score: " + candidateScore);
+          arr.push("Status: " + status);
+          try {
+              await Object.keys(obj).forEach(field => {
+                  return arr.push(field.toString() + ": " + obj[field]);
+              });
+              await arr.sort();
+          } catch(err) {
+              this.success = false;
+              console.log(err);
+          }
+          return arr;
+          /*if (this.success && this.exp) { //implies document exist to query our db
               hsh = await this.drizzleInstance.contracts.Credential.methods.viewClaim(this.claimId).call();
               dat = await database.collection("students").doc(this.activeAccount).collection("exp").doc(hsh).get();
               obj = dat.data();
@@ -134,17 +172,17 @@ export default {
           } catch(err) {
               this.success = false;
               console.log(err);
-          }
+          }*/
       },
   },
   data() {
       return {
           claimId: '',
           success: false,
-          status: '',
-          exp: false,
-          arr: [],
-          claimScore: '',
+          //status: '',
+          //exp: false,
+          //arr: [],
+          //claimScore: '',
           candidateScore: '',
           claimsarr: []
       }
@@ -152,9 +190,12 @@ export default {
   beforeMount() {
         var dbinst = database.collection("students").doc(this.activeAccount).collection("claimlog");
         dbinst.get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                console.log("CLAIM", doc.data()["claimID"]);
-                this.claimsarr.push(doc.data()["claimID"]);
+            querySnapshot.forEach(async (doc) => {
+                //console.log("CLAIM", doc.data()["claimID"]);
+                var id = doc.data()["claimID"];
+                var curr;
+                curr = await this.retrieveClaim(id);
+                this.claimsarr.push(curr);
             });
         }).catch((err) => {
             console.log(err);
@@ -179,7 +220,12 @@ export default {
         border-width: 1px;
         padding: 10px;
         border-radius: 16px;
-        border-color: grey
+        border-color: grey;
+        margin: 20px;
+}
+
+.contentCanVw {
+    padding: 0px 20px 20px 20px;
 }
 </style>
 

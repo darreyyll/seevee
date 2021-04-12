@@ -1,14 +1,17 @@
 <template>
-
   <div class="apply">
       <hdrCan></hdrCan>
-      <ul >
-          <li v-for="job in jobs" :key="job" class="joblisting"><b> {{ job.jobid}}. {{job.role }}</b><br> 
-          {{ job.jobdesc }} 
-          <button style="float:right;" v-on:click="applyjob(job.jobid, job.instadd)"> Apply </button><br>
-          </li>
-
-      </ul>
+      <div class="contentCanJob">
+          <p style="font-size: 20px;"> <b> Jobs </b> </p>
+          <ul>
+              <div>
+                  <li v-for="job in jobs" :key="job" class="joblisting"><b> {{ job.jobid}}. {{job.role }}</b><br> 
+                  {{ job.jobdesc }} 
+                  <button style="float: right; margin: 10px;" v-on:click="applyjob(job.jobid, job.instadd)"> Apply </button><br>
+                  </li>
+              </div>
+          </ul>
+      </div>
   </div>
 </template>
 
@@ -84,5 +87,15 @@ export default {
 <style>
 .joblisting {
     border-style: solid;
+    padding: 5px 5px 5px 10px;
+    margin-bottom:5px;
+}
+.contentCanJob {
+    padding: 0px 20px 20px 20px;
+}
+.joblisting:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 </style>

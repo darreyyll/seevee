@@ -1,40 +1,42 @@
 <template>
 <div>
     <hdrIns></hdrIns>
-    <p> <b> View Credential </b> </p>
-    <form>
+    <div class="contentInsView">
+        <p style="font-size: 20px;"> <b> View Credential </b> </p>
+        <form>
 
-    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
-    label="Credential ID: " label-align-sm="left">
-        <b-form-input type="number" v-model="claimId" placeholder="Credential ID"></b-form-input>
-    </b-form-group>
+        <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+        label="Credential ID: " label-align-sm="left">
+            <b-form-input type="number" v-model="claimId" placeholder="Credential ID"></b-form-input>
+        </b-form-group>
 
-     <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
-     label="Candidate: " label-align-sm="left">
-        <b-form-input type="text" v-model="user" placeholder="Candidate Address"></b-form-input>
-     </b-form-group>
+         <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+         label="Candidate: " label-align-sm="left">
+            <b-form-input type="text" v-model="user" placeholder="Candidate Address"></b-form-input>
+         </b-form-group>
 
-       <b-form-group label-cols-sm="1" label-cols-lg="1" label="Type: " label-align-sm="left">
-            <div class="ml-2 mt-2">
-                <input type="radio" name="type" v-model="exp" v-bind:value="false">
-                <label for="can" class="ml-2" style="text-align:left"> Academic </label>
-                <br/>
-                 <input type="radio" name="type" v-model="exp" v-bind:value="true">
-                  <label for="ins" class="ml-2" style="text-align:left"> Experience </label>
+           <b-form-group label-cols-sm="1" label-cols-lg="1" label="Type: " label-align-sm="left">
+                <div class="ml-2 mt-2">
+                    <input type="radio" name="type" v-model="exp" v-bind:value="false">
+                    <label for="can" class="ml-2" style="text-align:left"> Academic </label>
+                    <br/>
+                     <input type="radio" name="type" v-model="exp" v-bind:value="true">
+                      <label for="ins" class="ml-2" style="text-align:left"> Experience </label>
+                </div>
+           </b-form-group>
+            <br>
+            <button class="btn btn-secondary" v-on:click.prevent="retrieveClaim"> Retrieve Claim </button>
+        </form>
+        <hr>
+        <div v-if="this.success">
+            <!-- Can add score here if status is valid -->
+            <p> Credential status is <b><u> {{this.status}}.</u></b> </p>
+            <p> The claim score is <b><u> {{this.claimScore}}. </u></b> </p>
+            <!--p> The candidate score is <b><u> {{this.candidateScore}}. </u></b> </p-->
+            <div class="scorecard">
+                <p> <b> <i> Details: </i> </b> </p>
+                <p v-for="field in arr" v-bind:key="field"> {{field}} </p>
             </div>
-       </b-form-group>
-        <br>
-        <button class="btn btn-secondary" v-on:click.prevent="retrieveClaim"> Retrieve Claim </button>
-    </form>
-    <hr>
-    <div v-if="this.success">
-        <!-- Can add score here if status is valid -->
-        <p> Credential status is <b><u> {{this.status}}.</u></b> </p>
-        <p> The claim score is <b><u> {{this.claimScore}}. </u></b> </p>
-        <!--p> The candidate score is <b><u> {{this.candidateScore}}. </u></b> </p-->
-        <div class="scorecard">
-            <p> <b> <i> Details: </i> </b> </p>
-            <p v-for="field in arr" v-bind:key="field"> {{field}} </p>
         </div>
     </div>
 </div>
@@ -165,6 +167,10 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.contentInsView {
+    padding: 0px 20px 20px 20px;
+}
+
 </style>
 
 

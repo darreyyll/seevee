@@ -1,69 +1,72 @@
 <template>
 <div>
     <hdrCan></hdrCan>
-    <br>
-    <p> <b> Claim </b> </p>
-   
-    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
-    label="Claim Type: " label-align-sm="left">
-        <button class="switch btn btn-info"  v-on:click="showAcad"> Academic </button>
-        <button class="switch btn btn-success" v-on:click="showExp"> Experience </button>
-    </b-form-group>
-    <!--button class="switch" v-on:click="showAcad"> Academic </button>
-    <button class="switch" v-on:click="showExp"> Experience </button-->
-    <div v-if="this.switch.acad">
-    <br>
-    <div class="holdinstdetails">
-    <h3 > Academic Claim </h3>
-    <label > Enter Institution Address </label><br>
-    <input v-model="acadInst"><br>
-    <i>{{acadInst}}</i>
-    </div>
-    <upload-claim v-on:submitted="submit_claim"> </upload-claim>
-    <!-- <form>
-        <label> Institution: </label>
-        <input type="text" v-model="acad.inst" placeholder="Institution Address"/> <br>
-        <label> Module Code: </label>
-        <input type="text" v-model="acad.modCode" placeholder="Module Code"/> <br>
-        <label> Grade: </label>
-        <input type="text" v-model="acad.grade" placeholder="Attained Grade"/> <br>
+    <div class="contentCanClaim">
+        <p style="font-size: 20px;"> <b> Claim </b> </p>
+       
+        <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+        label="Claim Type: " label-align-sm="left">
+            <button class="switch btn btn-info"  v-on:click="showAcad"> Academic </button>
+            <button class="switch btn btn-success" v-on:click="showExp"> Experience </button>
+        </b-form-group>
+        <!--button class="switch" v-on:click="showAcad"> Academic </button>
+        <button class="switch" v-on:click="showExp"> Experience </button-->
+        <div v-if="this.switch.acad">
         <br>
-        <button v-on:click.prevent="claimAcad"> Submit Academic Claim </button>
-    </form> -->
-    <br>
+        <div class="holdinstdetails">
+        <h3 > Academic Claim </h3>
+        <label > Enter Institution Address </label><br>
+        <input v-model="acadInst"><br>
+        <i>{{acadInst}}</i>
+        </div>
+        <br>
+        <upload-claim v-on:submitted="submit_claim"> </upload-claim>
+        <!-- <form>
+            <label> Institution: </label>
+            <input type="text" v-model="acad.inst" placeholder="Institution Address"/> <br>
+            <label> Module Code: </label>
+            <input type="text" v-model="acad.modCode" placeholder="Module Code"/> <br>
+            <label> Grade: </label>
+            <input type="text" v-model="acad.grade" placeholder="Attained Grade"/> <br>
+            <br>
+            <button v-on:click.prevent="claimAcad"> Submit Academic Claim </button>
+        </form> -->
+        <br>
+        </div>
+        <div v-if="this.switch.exp">
+        <br>
+        <div class="holdinstdetails">
+        <h3 > Experience Claim </h3>
+        <label> Enter Institution Address </label><br>
+        <input v-model="expInst"><br>
+        <i>{{expInst}} </i>
+        </div>
+        <br>
+        <upload-claim v-on:submitted="submit_claim"> </upload-claim>
+        <!-- <form>
+            <label> Institution: </label>
+            <input type="text" v-model="exp.inst" placeholder="Institution Address"/> <br>
+            <label> Start Date: </label>
+            <input type="text" v-model="exp.startDate" placeholder="Start Dates"/> <br>
+            <label> End Date: </label>
+            <input type="text" v-model="exp.endDate" placeholder="End Date"/> <br>
+            COMPANY WILL KEY IN THIS INFO???... DOESNT RLLY MAKE SENSE FOR CANDIDATE TO KEY THIS IN....-->
+            <!--label> Performance: </label>
+            <input type="text" v-model="this.acad.grade" placeholder="Attained Grade"/> <br>
+            <label> Comments: </label>
+            <input type="text" v-model="this.acad.grade" placeholder="Attained Grade"/> <br-->
+            <!-- <br>
+            <button v-on:click.prevent="claimExp"> Submit Experience Claim </button>
+        </form> -->
+        <br>
+        </div>
+        <hr>
+        <div v-if="this.res.success">
+        <p> Credential claim submitted successfully. <b> Your claim id is: <u> {{this.res.id}} </u> </b> </p>
+        </div>
+        <!--br><hr><br>
+        <button v-on:click.prevent="checkHash"> Check Doc </button-->
     </div>
-    <div v-if="this.switch.exp">
-    <br>
-    <div class="holdinstdetails">
-    <h3 > Experience Claim </h3>
-    <label> Enter Institution Address </label><br>
-    <input v-model="expInst">
-    <i>{{expInst}} </i>
-    </div>
-    <upload-claim v-on:submitted="submit_claim"> </upload-claim>
-    <!-- <form>
-        <label> Institution: </label>
-        <input type="text" v-model="exp.inst" placeholder="Institution Address"/> <br>
-        <label> Start Date: </label>
-        <input type="text" v-model="exp.startDate" placeholder="Start Dates"/> <br>
-        <label> End Date: </label>
-        <input type="text" v-model="exp.endDate" placeholder="End Date"/> <br>
-        COMPANY WILL KEY IN THIS INFO???... DOESNT RLLY MAKE SENSE FOR CANDIDATE TO KEY THIS IN....-->
-        <!--label> Performance: </label>
-        <input type="text" v-model="this.acad.grade" placeholder="Attained Grade"/> <br>
-        <label> Comments: </label>
-        <input type="text" v-model="this.acad.grade" placeholder="Attained Grade"/> <br-->
-        <!-- <br>
-        <button v-on:click.prevent="claimExp"> Submit Experience Claim </button>
-    </form> -->
-    <br>
-    </div>
-    <hr>
-    <div v-if="this.res.success">
-    <p> Credential claim submitted successfully. <b> Your claim id is: <u> {{this.res.id}} </u> </b> </p>
-    </div>
-    <!--br><hr><br>
-    <button v-on:click.prevent="checkHash"> Check Doc </button-->
 </div>
 </template>
 
@@ -298,5 +301,7 @@ export default {
     text-align: center;
     font-family: Avenir, Helvetica, Arial, sans-serif;
 }
-
+.contentCanClaim {
+    padding: 0px 20px 20px 20px;
+}
 </style>

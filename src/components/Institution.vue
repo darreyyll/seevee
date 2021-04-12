@@ -1,11 +1,15 @@
 <template>
 <div>
     <hdrIns></hdrIns>
-    <p> <b> Welcome to SeeVee! </b> </p>
-    <p> <u> Verify </u> </p>
-    <p> Enter this tab to verify credentials. Verification can be an acceptance, rejection or revocation. You will need a claim ID and details to perform verification. </p>
-    <p> <u> View </u> </p>
-    <p> Enter this tab to view credentials approved for your viewing. You can view the credential details here. </p>
+    <div class="contentIns">
+        <p style="font-size: 20px;"> <b> Welcome to SeeVee! </b> </p>
+        <p> <u> Verify </u> </p>
+        <p> Enter this tab to verify credentials. Verification can be an acceptance, rejection or revocation. You will need a claim ID and details to perform verification. </p>
+        <p> <u> View </u> </p>
+        <p> Enter this tab to view credentials approved for your viewing. You can view the credential details here. </p>
+        <p> <u> Job </u> </p>
+        <p> List jobs and view applicants. </p>
+    </div>
 </div>
 </template>
 
@@ -40,6 +44,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.contentIns {
+    padding: 0px 20px 20px 20px;
 }
 </style>
 

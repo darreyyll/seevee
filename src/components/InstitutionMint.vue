@@ -1,100 +1,105 @@
 <template>
 <div>
     <hdrIns></hdrIns>
-    <p> <b> Verify Credential </b> </p>
+    <div class="contentInsMint">
+        <p style="font-size: 20px;"> <b> Verify Credential </b> </p>
 
-    <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
-    label="Claim Type: " label-align-sm="left">
-        <button class="switch btn btn-info"  v-on:click="showAcad"> Academic </button>
-        <button class="switch btn btn-success" v-on:click="showExp"> Experience </button>
-    </b-form-group>
+        <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+        label="Claim Type: " label-align-sm="left">
+            <button class="switch btn btn-info"  v-on:click="showAcad"> Academic </button>
+            <button class="switch btn btn-success" v-on:click="showExp"> Experience </button>
+        </b-form-group>
 
 
-    <div v-if="this.switch.acad">
-    <br>
-    <div class="holdinstdetails">
-    <h3 > Academic Claim </h3>
-    <label > Enter Claim ID </label><br>
-    <input v-model="claimId" @change="checkClaimId"><br>
-    <i>{{claimId}}</i> <br><br>
-    <label > Enter Candidate's Address </label><br>
-    <input v-model="candidateAddress"><br>
-    <i>{{candidateAddress}}</i>
-    </div>
-    <div v-if="valid_claimid">
-    <upload-claim v-on:submitted="submit_claim"> </upload-claim>
-    </div>
-    <!--div v-if="!valid_claimid">
-    <p> Please Insert a Valid Claim ID to Verify </p>
-    </div-->
-    <!-- <form>
-        <label> Claim ID: </label>
-        <input type="number" v-model="acad.id" placeholder="ClaimID"/> <br>
-        <label> Candidate: </label>
-        <input type="text" v-model="acad.user" placeholder="Candidate Address"/> <br>
-        <label> Module Code: </label>
-        <input type="text" v-model="acad.modCode" placeholder="Module Code"/> <br>
-        <label> Grade: </label>
-        <input type="text" v-model="acad.grade" placeholder="Attained Grade"/> <br>
+        <div v-if="this.switch.acad">
         <br>
-        <button v-on:click.prevent="verifyAcad"> Verify Academic Credential </button>
-    </form> -->
-
-    <br>
-    </div>
-    <div v-if="this.switch.exp">
-    <br>
-    <div class="holdinstdetails">
-    <h3 > Experience Claim </h3>
-    <label > Enter Claim ID </label><br>
-    <input v-model="claimId" @change="checkClaimId"><br>
-    <i>{{claimId}}</i> <br><br>
-    <label > Enter Candidate's Address </label><br>
-    <input v-model="candidateAddress"><br>
-    <i>{{candidateAddress}}</i>
-    </div>
-    <div v-if="valid_claimid">
-    <upload-claim v-on:submitted="submit_claim"> </upload-claim>
-    </div>
-    <!--div v-if="!valid_claimid">
-    <p> Please Insert a Valid Claim ID to Verify </p>
-    </div-->
-
-
-    <!--upload-claim v-on:submitted="submit_claim"> </upload-claim-->
-    <!-- <form>
-        <label> Claim ID: </label>
-        <input type="number" v-model="exp.id" placeholder="ClaimID"/> <br>
-        <label> Candidate: </label>
-        <input type="text" v-model="exp.user" placeholder="Candidate Address"/> <br>
-        <label> Start Date: </label>
-        <input type="text" v-model="exp.startDate" placeholder="Start Dates"/> <br>
-        <label> End Date: </label>
-        <input type="text" v-model="exp.endDate" placeholder="End Date"/> <br>
-        <label> Performance: </label>
-        <input type="text" v-model="exp.performanceRating" placeholder="Performance Rating"/> <br>
-        <label> Comments: </label>
-        <input type="text" v-model="exp.comments" placeholder="Comments"/> <br>
+        <div class="holdinstdetails">
+        <h3 > Academic Claim </h3>
+        <label > Enter Claim ID </label><br>
+        <input v-model="claimId" @change="checkClaimId"><br>
+        <i>{{claimId}}</i> <br><br>
+        <label > Enter Candidate's Address </label><br>
+        <input v-model="candidateAddress"><br>
+        <i>{{candidateAddress}}</i>
+        </div>
+        <div v-if="valid_claimid">
         <br>
-        <button v-on:click.prevent="verifyExp"> Verify Experience Credential </button>
-    </form> -->
-    <br>
-    </div>
-    <b v-if="computingscore"> Computing Score. Please do not close this browser </b>
-    <br><hr>
-    <h3> Candidate's Credential Has Been Scored: </h3>
-    {{final_score}} %<hr>
-    <p> <b> Revoke Credential </b> </p>
-    <form>
-         <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
-           label="Credential ID: " label-align-sm="left">
-                <b-form-input type="number" v-model="revoke.id" placeholder="Credential ID"></b-form-input>
-         </b-form-group>
+        <upload-claim v-on:submitted="submit_claim"> </upload-claim>
+        <br>
+        </div>
+        <!--div v-if="!valid_claimid">
+        <p> Please Insert a Valid Claim ID to Verify </p>
+        </div-->
+        <!-- <form>
+            <label> Claim ID: </label>
+            <input type="number" v-model="acad.id" placeholder="ClaimID"/> <br>
+            <label> Candidate: </label>
+            <input type="text" v-model="acad.user" placeholder="Candidate Address"/> <br>
+            <label> Module Code: </label>
+            <input type="text" v-model="acad.modCode" placeholder="Module Code"/> <br>
+            <label> Grade: </label>
+            <input type="text" v-model="acad.grade" placeholder="Attained Grade"/> <br>
+            <br>
+            <button v-on:click.prevent="verifyAcad"> Verify Academic Credential </button>
+        </form> -->
 
         <br>
-        <button class="btn btn-danger" v-on:click.prevent="revokeCred"> Revoke Credential </button>
-    </form>
-    <br>
+        </div>
+        <div v-if="this.switch.exp">
+        <br>
+        <div class="holdinstdetails">
+        <h3 > Experience Claim </h3>
+        <label > Enter Claim ID </label><br>
+        <input v-model="claimId" @change="checkClaimId"><br>
+        <i>{{claimId}}</i> <br><br>
+        <label > Enter Candidate's Address </label><br>
+        <input v-model="candidateAddress"><br>
+        <i>{{candidateAddress}}</i>
+        </div>
+        <div v-if="valid_claimid">
+        <upload-claim v-on:submitted="submit_claim"> </upload-claim>
+        </div>
+        <!--div v-if="!valid_claimid">
+        <p> Please Insert a Valid Claim ID to Verify </p>
+        </div-->
+
+
+        <!--upload-claim v-on:submitted="submit_claim"> </upload-claim-->
+        <!-- <form>
+            <label> Claim ID: </label>
+            <input type="number" v-model="exp.id" placeholder="ClaimID"/> <br>
+            <label> Candidate: </label>
+            <input type="text" v-model="exp.user" placeholder="Candidate Address"/> <br>
+            <label> Start Date: </label>
+            <input type="text" v-model="exp.startDate" placeholder="Start Dates"/> <br>
+            <label> End Date: </label>
+            <input type="text" v-model="exp.endDate" placeholder="End Date"/> <br>
+            <label> Performance: </label>
+            <input type="text" v-model="exp.performanceRating" placeholder="Performance Rating"/> <br>
+            <label> Comments: </label>
+            <input type="text" v-model="exp.comments" placeholder="Comments"/> <br>
+            <br>
+            <button v-on:click.prevent="verifyExp"> Verify Experience Credential </button>
+        </form> -->
+        <br>
+        </div>
+        <b v-if="computingscore"> Computing Score. Please do not close this browser </b>
+        <br><hr>
+        <h3> Candidate's Credential Has Been Scored: </h3>
+        {{final_score}} %<hr>
+        <p> <b> Revoke Credential </b> </p>
+        <form>
+             <b-form-group label-cols-sm="1" label-cols-lg="1" content-cols-sm  content-cols-lg="4"
+               label="Credential ID: " label-align-sm="left">
+                    <b-form-input type="number" v-model="revoke.id" placeholder="Credential ID"></b-form-input>
+             </b-form-group>
+
+            <br>
+            <button class="btn btn-danger" v-on:click.prevent="revokeCred"> Revoke Credential </button>
+        </form>
+        <br>
+    </div>
+    <button v-on:click.prevent="dummy"> TEST </button>
 </div>
 </template>
 
@@ -111,7 +116,8 @@ export default {
   },
   methods: {
       async dummy() {
-          console.log(database);
+          console.log(this.total_score);
+          console.log(this.total_potential);
       },
       showAcad() {
           this.switch.acad = true;
@@ -165,17 +171,17 @@ export default {
 
       },
 
-      submit_claim(json_file) {
+      async submit_claim(json_file) {
 
           this.counterclaim = json_file;
           console.log(this.counterclaim);
-          console.log(JSON.stringify(this.counterclaim))
-          this.computeScore()
+          console.log(JSON.stringify(this.counterclaim));
+          await this.computeScore();
           this.computingscore = true;
           if(this.switch.acad) {
-              this.verifyAcad();
+              await this.verifyAcad();
           } else {
-              this.verifyExp();
+              await this.verifyExp();
           }
       },
 
@@ -208,11 +214,14 @@ export default {
         // data = claim
         //this.counterclaim = counterclaim
 
-
+        //Reset
+        this.total_potential = 0;
+        this.total_score=0
 
         for(var key in this.counterclaim) {
             // console.log("KEY " , key)
             // console.log("VALUE", this.counterclaim[key])
+            //score is computed as a penalty
             try {
                 let field = this.claim[key]
                 // console.log("FIELD", field)
@@ -222,12 +231,13 @@ export default {
                 this.total_potential += this.counterclaim[key].length;
             } catch(e) {
                 console.log("No such field")
-                this.total_score -= 50; //punitive measure
+                this.total_score += 50; //punitive measure
             }
         }
 
-        console.log("Total Score", this.total_potential - this.total_score, " Total Potential", this.total_potential) 
-        this.final_score = (this.total_potential - this.total_score)/this.total_potential;
+        console.log("Total Score", Math.max((this.total_potential - this.total_score),0), " Total Potential", this.total_potential) 
+        //Math max to prevent negative score
+        this.final_score = Math.max((this.total_potential - this.total_score),0)/this.total_potential;
         this.final_score = this.final_score * 100;
         this.final_score = Math.floor(this.final_score); //floating point error - force to floor int
         console.log("Final Score = ", this.final_score)
@@ -237,6 +247,7 @@ export default {
 
     },
 
+    //THIS COMPUTES A PENALTY
     scoreAlgo(field1, field2, m, n) {
 
         if (m == 0)
@@ -310,5 +321,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.contentInsMint {
+    padding: 0px 20px 20px 20px;
 }
 </style>
