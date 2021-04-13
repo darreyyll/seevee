@@ -1,7 +1,7 @@
 # SeeVee
 
 ## Giving You Long-Lived, Immutable Credentials 
-
+### Link to Public Repo: https://github.com/darreyyll/seevee.git
 ------
 
 ### What is SeeVee?
